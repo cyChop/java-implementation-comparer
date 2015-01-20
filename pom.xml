@@ -12,6 +12,14 @@
     A utility to compare performances on several implementation of a Java method.
   </description>
 
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
   <properties>
     <!-- Compilation settings -->
     <maven.compiler.source>1.7</maven.compiler.source>
@@ -68,27 +76,27 @@
     </dependency>
   </dependencies>
 
-	<!-- Project additional information -->
-	<scm>
-		<connection>scm:git:git@github.com:cyChop/java-implementation-comparer.git</connection>
-		<url>scm:git:git@github.com:cyChop/java-implementation-comparer.git</url>
-		<developerConnection>scm:git:git@github.com:cyChop/java-implementation-comparer.git</developerConnection>
-	</scm>
-	<issueManagement>
-		<system>GitHub</system>
-		<url>https://github.com/cyChop/java-implementation-comparer/issues</url>
-	</issueManagement>
-	<developers>
-		<developer>
-			<id>cyChop</id>
-			<name>Cyrille Chopelet</name>
-			<email>cyrille[dot]chopelet@mines-nancy[dot]org</email>
-			<roles>
-				<role>architect</role>
-				<role>developer</role>
-			</roles>
-			<timezone>+1</timezone>
-			<url>http://keyboardplaying.org</url>
-		</developer>
-	</developers>
+  <!-- Project additional information -->
+  <scm>
+    <connection>scm:git:git@github.com:cyChop/java-implementation-comparer.git</connection>
+    <url>scm:git:git@github.com:cyChop/java-implementation-comparer.git</url>
+    <developerConnection>scm:git:git@github.com:cyChop/java-implementation-comparer.git</developerConnection>
+  </scm>
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/cyChop/java-implementation-comparer/issues</url>
+  </issueManagement>
+  <developers>
+    <developer>
+      <id>cyChop</id>
+      <name>Cyrille Chopelet</name>
+      <email>cyrille[dot]chopelet@mines-nancy[dot]org</email>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>+1</timezone>
+      <url>http://keyboardplaying.org</url>
+    </developer>
+  </developers>
 </project>
