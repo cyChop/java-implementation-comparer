@@ -32,16 +32,52 @@
     <asciiart.version>1.0.0</asciiart.version>
     <junit.version>4.12</junit.version>
     <mockito.version>1.10.19</mockito.version>
+    <!-- Version management - coverage -->
+    <jacoco.plugin.version>0.7.2.201409121644</jacoco.plugin.version>
+    <coveralls.plugin.version>3.0.1</coveralls.plugin.version>
   </properties>
 
-  <dependencies>
+  <build>
+    <plugins>
+      <!--   ___                                -->
+      <!--  / __|_____ _____ _ _ __ _ __ _ ___  -->
+      <!-- | (__/ _ \ V / -_) '_/ _` / _` / -_) -->
+      <!--  \___\___/\_/\___|_| \__,_\__, \___| -->
+      <!--                           |___/      -->
+      <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-surefire-plugin</artifactId>
+         <configuration>
+            <argLine>${surefireArgLine}</argLine>      <!-- This is required for code coverage to work. -->
+         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.plugin.version}</version>
+        <executions>
+            <execution>
+              <id>prepare-agent</id>
+              <goals>
+                  <goal>prepare-agent</goal>
+              </goals>
+            </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.eluder.coveralls</groupId>
+        <artifactId>coveralls-maven-plugin</artifactId>
+        <version>${coveralls.plugin.version}</version>
+      </plugin>
+    </plugins>
+  </build>
 
+  <dependencies>
     <!--  _               -->
     <!-- | |   ___  __ _  -->
     <!-- | |__/ _ \/ _` | -->
     <!-- |____\___/\__, | -->
     <!--           |___/  -->
-
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
@@ -57,7 +93,7 @@
       <artifactId>logback-core</artifactId>
       <version>${logback.version}</version>
     </dependency>
-    <!-- Ascii art -->
+    <!-- Ascii art - log as tables -->
     <dependency>
       <groupId>org.alcibiade</groupId>
       <artifactId>asciiart-slf4j</artifactId>
@@ -68,7 +104,6 @@
     <!-- |_   _|__ __| |_  -->
     <!--   | |/ -_|_-<  _| -->
     <!--   |_|\___/__/\__| -->
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
