@@ -60,7 +60,7 @@ public class ImplComparerTest {
     public void testCompareStatic() throws NoSuchMethodException {
         List<ImplCheckResult> comparison =
                 ImplComparer.compareStatic(ClassWithVariants.class, "hello",
-                new Class<?>[] {}, new Object[] {}, 2, 1000);
+                new Class<?>[] {}, new Object[] {}, 5, 100000);
 
         assertEquals("Incorrect number of variants", 3, comparison.size());
 

@@ -22,7 +22,6 @@ public final class ImplComparer {
     /** The default number of iterations per time check. */
     private static final int DEFAULT_ITERATIONS = 10000;
 
-
     private static Logger log = LoggerFactory.getLogger(ImplComparer.class);
 
     /* Utility class should not be instanciated. */
@@ -207,7 +206,8 @@ public final class ImplComparer {
     private static List<ImplCheckResult> compare(Object target, Class<?> klass, String methodName,
             Class<?>[] erasure, Object[] parameters, int checks, int iterations)
             throws NoSuchMethodException {
-        log.info("Beginning performance comparison for method <{}>", methodName);
+        log.info("Beginning performance comparison for method <{}>, ({} check(s), {} iteration(s) per check",
+                methodName, checks, iterations);
         List<Method> methods = loadMethods(klass, methodName, erasure);
 
         log.debug("{} variants found (including original).", methods.size());
