@@ -5,7 +5,7 @@ jdk:
   - oraclejdk7
 #  - openjdk6
 
-script: mvn clean install -Pprep-coverage
+install: mvn clean install -Pprep-coverage -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
 after_success:
   - mvn jacoco:report coveralls:report
