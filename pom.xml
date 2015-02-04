@@ -83,6 +83,21 @@
     </dependency>
   </dependencies>
 
+  <build>
+    <plugins>
+      <!--   ___                                -->
+      <!--  / __|_____ _____ _ _ __ _ __ _ ___  -->
+      <!-- | (__/ _ \ V / -_) '_/ _` / _` / -_) -->
+      <!--  \___\___/\_/\___|_| \__,_\__, \___| -->
+      <!--                           |___/      -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.plugin.version}</version>
+      </plugin>
+    </plugins>
+  </build>
+
   <profiles>
     <profile>
       <id>prep-coverage</id>
@@ -103,7 +118,6 @@
           <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
-            <version>${jacoco.plugin.version}</version>
             <executions>
               <execution>
                 <id>pre-unit-test</id>
