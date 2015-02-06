@@ -33,7 +33,7 @@
     <junit.version>4.12</junit.version>
     <mockito.version>1.10.19</mockito.version>
     <!-- Version management - coverage -->
-    <jacoco.plugin.version>0.7.2.201409121644</jacoco.plugin.version>
+    <cobertura.plugin.version>2.6</cobertura.plugin.version>
     <coveralls.plugin.version>3.0.1</coveralls.plugin.version>
   </properties>
 
@@ -85,72 +85,40 @@
 
   <build>
     <plugins>
-      <!--   ___                                -->
-      <!--  / __|_____ _____ _ _ __ _ __ _ ___  -->
-      <!-- | (__/ _ \ V / -_) '_/ _` / _` / -_) -->
-      <!--  \___\___/\_/\___|_| \__,_\__, \___| -->
-      <!--                           |___/      -->
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>${jacoco.plugin.version}</version>
-      </plugin>
-      <plugin>
-        <groupId>org.eluder.coveralls</groupId>
-        <artifactId>coveralls-maven-plugin</artifactId>
-        <version>${coveralls.plugin.version}</version>
-      </plugin>
+        <!--   ___                                -->
+        <!--  / __|_____ _____ _ _ __ _ __ _ ___  -->
+        <!-- | (__/ _ \ V / -_) '_/ _` / _` / -_) -->
+        <!--  \___\___/\_/\___|_| \__,_\__, \___| -->
+        <!--                           |___/      -->
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>cobertura-maven-plugin</artifactId>
+        </plugin>
+        <plugin>
+          <groupId>org.eluder.coveralls</groupId>
+          <artifactId>coveralls-maven-plugin</artifactId>
+        </plugin>
     </plugins>
+    
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>cobertura-maven-plugin</artifactId>
+          <version>${cobertura.plugin.version}</version>
+          <configuration>
+            <format>xml</format>
+            <maxmem>256m</maxmem>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.eluder.coveralls</groupId>
+          <artifactId>coveralls-maven-plugin</artifactId>
+          <version>${coveralls.plugin.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
-
-  <profiles>
-    <profile>
-      <id>prep-coverage</id>
-      <build>
-        <plugins>
-          <!--   ___                                -->
-          <!--  / __|_____ _____ _ _ __ _ __ _ ___  -->
-          <!-- | (__/ _ \ V / -_) '_/ _` / _` / -_) -->
-          <!--  \___\___/\_/\___|_| \__,_\__, \___| -->
-          <!--                           |___/      -->
-          <plugin>
-             <groupId>org.apache.maven.plugins</groupId>
-             <artifactId>maven-surefire-plugin</artifactId>
-             <configuration>
-                <argLine>${surefireArgLine}</argLine>      <!-- This is required for code coverage to work. -->
-             </configuration>
-          </plugin>
-          <plugin>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>pre-unit-test</id>
-                <goals>
-                  <goal>prepare-agent</goal>
-                </goals>
-                <configuration>
-                  <destFile>${project.build.directory}/coverage-reports/jacoco.exec</destFile>
-                  <propertyName>surefireArgLine</propertyName>
-                </configuration>
-              </execution>
-              <execution>
-                <id>post-unit-test</id>
-                <phase>test</phase>
-                <goals>
-                  <goal>report</goal>
-                </goals>
-                <configuration>
-                  <dataFile>${project.build.directory}/coverage-reports/jacoco.exec</dataFile>
-                  <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 
   <!-- Project additional information -->
   <scm>
