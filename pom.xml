@@ -99,7 +99,7 @@
           <artifactId>coveralls-maven-plugin</artifactId>
         </plugin>
     </plugins>
-    
+
     <pluginManagement>
       <plugins>
         <plugin>

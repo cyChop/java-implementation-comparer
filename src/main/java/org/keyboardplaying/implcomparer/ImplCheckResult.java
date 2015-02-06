@@ -78,7 +78,7 @@ public class ImplCheckResult {
      * @return the average execution time
      */
     public double getAverageExecutionTime() {
-        return (double) totalExecutionTime / totalExecutions;
+        return totalExecutions == 0 ? 0. : (double) totalExecutionTime / totalExecutions;
     }
 
     /**

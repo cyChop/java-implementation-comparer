@@ -86,4 +86,9 @@ public class ImplComparerTest {
         ImplComparer.compare(new ClassWithVariants(), "noArgMethod", null, null, 1, 10);
         ImplComparer.compareStatic(ClassWithVariants.class, "hello", null, null, 1, 10);
     }
+    
+    @Test
+    public void testExceptionalMethod() throws NoSuchMethodException {
+        ImplComparer.compare(new ClassWithVariants(), "throwException", null, null);
+    }
 }
