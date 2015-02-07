@@ -1,4 +1,4 @@
-package org.keyboardplaying.implcomparer;
+package org.keyboardplaying.comparer.core;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.atLeastOnce;
@@ -11,6 +11,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.keyboardplaying.comparer.core.ImplComparisonLogger;
+import org.keyboardplaying.comparer.model.ImplCheckResult;
+import org.keyboardplaying.comparer.test.ClassWithVariants;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;

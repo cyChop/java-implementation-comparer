@@ -1,4 +1,4 @@
-package org.keyboardplaying.implcomparer;
+package org.keyboardplaying.comparer.model;
 
 import java.lang.reflect.Method;
 
@@ -34,7 +34,7 @@ public class ImplCheckResult {
      * @param executionTime
      *            the execution time
      */
-    protected void addExecutionTime(long executionTime) {
+    public void addExecutionTime(long executionTime) {
         addExecutionTime(executionTime, 1);
     }
 
@@ -47,7 +47,7 @@ public class ImplCheckResult {
      * @param nbExecutions
      *            the number of executions
      */
-    protected void addExecutionTime(long executionTime, int nbExecutions) {
+    public void addExecutionTime(long executionTime, int nbExecutions) {
         this.totalExecutionTime += executionTime;
         this.totalExecutions += nbExecutions;
     }

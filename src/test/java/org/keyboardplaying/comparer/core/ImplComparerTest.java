@@ -1,4 +1,4 @@
-package org.keyboardplaying.implcomparer;
+package org.keyboardplaying.comparer.core;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -7,6 +7,9 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.junit.Test;
+import org.keyboardplaying.comparer.core.ImplComparer;
+import org.keyboardplaying.comparer.model.ImplCheckResult;
+import org.keyboardplaying.comparer.test.ClassWithVariants;
 
 /**
  * Test cases for {@link ImplComparer}.
@@ -17,8 +20,7 @@ public class ImplComparerTest {
 
     @Test(expected = NoSuchMethodException.class)
     public void testNoSuchMethod() throws NoSuchMethodException {
-        ClassWithVariants target = new ClassWithVariants();
-        ImplComparer.compare(target, "notHere", new Class<?>[] { String.class },
+        ImplComparer.compare(new ClassWithVariants(), "notHere", new Class<?>[] { String.class },
                 new Object[] { "A String param" });
     }
 

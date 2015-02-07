@@ -1,4 +1,4 @@
-package org.keyboardplaying.implcomparer;
+package org.keyboardplaying.comparer.core;
 
 import java.util.List;
 import java.util.Objects;
@@ -6,6 +6,7 @@ import java.util.Objects;
 import org.alcibiade.asciiart.slf4j.AsciiArtLogger;
 import org.alcibiade.asciiart.widget.TableWidget;
 import org.alcibiade.asciiart.widget.model.AbstractTableModel;
+import org.keyboardplaying.comparer.model.ImplCheckResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

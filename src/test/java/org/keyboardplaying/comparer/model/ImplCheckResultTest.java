@@ -1,10 +1,11 @@
-package org.keyboardplaying.implcomparer;
+package org.keyboardplaying.comparer.model;
 
 import static org.junit.Assert.assertEquals;
 
 import java.lang.reflect.Method;
 
 import org.junit.Test;
+import org.keyboardplaying.comparer.model.ImplCheckResult;
 
 /**
  * Test cases for {@link ImplCheckResult}.

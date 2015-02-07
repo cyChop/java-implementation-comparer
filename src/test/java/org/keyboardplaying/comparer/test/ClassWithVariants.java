@@ -1,4 +1,4 @@
-package org.keyboardplaying.implcomparer;
+package org.keyboardplaying.comparer.test;
 
 /**
  * A class with variants of methods for implementation comparer testing.

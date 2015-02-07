@@ -1,9 +1,10 @@
-package org.keyboardplaying.implcomparer;
+package org.keyboardplaying.comparer.core;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.keyboardplaying.comparer.model.ImplCheckResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
