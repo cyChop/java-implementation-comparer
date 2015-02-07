@@ -40,7 +40,6 @@ public class ClassWithVariants {
     }
 
     public void throwException() {
-        throw new RuntimeException(
-                "This is only to test how the comparer behaves in case of an exception");
+        throw new RuntimeException("dummy-exception-test-message");
     }
 }

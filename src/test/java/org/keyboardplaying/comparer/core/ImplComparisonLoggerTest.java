@@ -11,7 +11,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.keyboardplaying.comparer.core.ImplComparisonLogger;
 import org.keyboardplaying.comparer.model.ImplCheckResult;
 import org.keyboardplaying.comparer.test.ClassWithVariants;
 import org.mockito.ArgumentCaptor;
@@ -82,7 +81,8 @@ public class ImplComparisonLoggerTest {
                 separator };
 
         /* Execute the code to test. */
-        ImplComparisonLogger.log(results);
+        ImplComparisonLogger logger = new ImplComparisonLogger();
+        logger.log(results);
 
         /* Check logging matches the expectations. */
         verify(mockAppender, atLeastOnce()).doAppend(captorLoggingEvent.capture());

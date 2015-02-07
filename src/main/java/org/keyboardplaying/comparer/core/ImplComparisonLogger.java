@@ -31,17 +31,13 @@ public final class ImplComparisonLogger {
 
     private static Logger log = LoggerFactory.getLogger(ImplComparisonLogger.class);
 
-    /** Utility class should not be instanciated. */
-    private ImplComparisonLogger() {
-    }
-
     /**
      * Logs the results as a table.
      *
      * @param results
      *            the results to log
      */
-    public static void log(List<ImplCheckResult> results) {
+    public void log(List<ImplCheckResult> results) {
         log(results, log);
     }
 
@@ -53,7 +49,7 @@ public final class ImplComparisonLogger {
      * @param logger
      *            the {@link Logger} to log to
      */
-    public static void log(List<ImplCheckResult> results, Logger logger) {
+    public void log(List<ImplCheckResult> results, Logger logger) {
         TableWidget tableWidget = new TableWidget(new ImplComparisonTable(results));
         new AsciiArtLogger(logger).info(tableWidget);
     }

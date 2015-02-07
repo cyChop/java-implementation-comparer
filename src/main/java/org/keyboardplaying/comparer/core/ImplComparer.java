@@ -1,5 +1,6 @@
 package org.keyboardplaying.comparer.core;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +26,45 @@ public final class ImplComparer {
 
     private static Logger log = LoggerFactory.getLogger(ImplComparer.class);
 
-    /* Utility class should not be instanciated. */
-    private ImplComparer() {
+    private int checks = DEFAULT_CHECKS;
+    private int iterations = DEFAULT_ITERATIONS;
+
+    /**
+     * Returns the number of checks per comparison.
+     *
+     * @return the number of checks
+     */
+    public int getChecks() {
+        return checks;
+    }
+
+    /**
+     * Sets the number of checks per comparison (default: {@value #DEFAULT_CHECKS}).
+     *
+     * @param checks
+     *            the number of checks
+     */
+    public void setChecks(int checks) {
+        this.checks = checks;
+    }
+
+    /**
+     * Returns the number of iterations per check (default: {@value #DEFAULT_ITERATIONS}).
+     *
+     * @return the number of iterations per check
+     */
+    public int getIterations() {
+        return iterations;
+    }
+
+    /**
+     * Sets the number of iterations per check.
+     *
+     * @param iterations
+     *            the number of iterations per check
+     */
+    public void setIterations(int iterations) {
+        this.iterations = iterations;
     }
 
     /**
@@ -39,9 +77,6 @@ public final class ImplComparer {
      * Thus, if you wish to compare implementations of {@code aSimpleMethod(String, int)}, variants
      * should be named {@code aSimpleMethod1(String, int)}, {@code aSimpleMethod2(String, int)}, and
      * so on. Variants will be automatically detected using reflectivity.
-     * <p/>
-     * The default number of checks ({@value #DEFAULT_CHECKS}) and iterations per check (
-     * {@value #DEFAULT_ITERATIONS}) will be used.
      *
      * @param target
      *            the instance to run the comparison on
@@ -56,9 +91,38 @@ public final class ImplComparer {
      * @throws NoSuchMethodException
      *             if the requested original method does not exist
      */
-    public static List<ImplCheckResult> compare(Object target, String methodName,
+    public List<ImplCheckResult> compare(Object target, String methodName, Class<?>[] erasure,
+            Object[] parameters) throws NoSuchMethodException {
+        return compare(target, target.getClass(), methodName, erasure, parameters);
+    }
+
+    /**
+     * Compares several implementations of a static method.
+     * <p/>
+     * The method variants should be named after the original method but suffixed with a 1-based
+     * integer index. The variants should have the same erasure and return type as the original
+     * method.
+     * <p/>
+     * Thus, if you wish to compare implementations of {@code aSimpleMethod(String, int)}, variants
+     * should be named {@code aSimpleMethod1(String, int)}, {@code aSimpleMethod2(String, int)}, and
+     * so on. Variants will be automatically detected using reflectivity.
+     *
+     * @param klass
+     *            the {@link Class} to run the comparison for
+     * @param methodName
+     *            the name of the original method
+     * @param erasure
+     *            the types of the parameters; {@code null} tolerated in case of a no-arg method
+     * @param parameters
+     *            the parameters to use for comparison; {@code null} tolerated in case of a no-arg
+     *            method
+     * @return a list of performance check result
+     * @throws NoSuchMethodException
+     *             if the requested original method does not exist
+     */
+    public List<ImplCheckResult> compareStatic(Class<?> klass, String methodName,
             Class<?>[] erasure, Object[] parameters) throws NoSuchMethodException {
-        return compare(target, methodName, erasure, parameters, DEFAULT_CHECKS, DEFAULT_ITERATIONS);
+        return compare(null, klass, methodName, erasure, parameters);
     }
 
     /**
@@ -71,48 +135,9 @@ public final class ImplComparer {
      * Thus, if you wish to compare implementations of {@code aSimpleMethod(String, int)}, variants
      * should be named {@code aSimpleMethod1(String, int)}, {@code aSimpleMethod2(String, int)}, and
      * so on. Variants will be automatically detected using reflectivity.
-     * <p/>
-     * You can set how many performance checks will be run, and how many iterations each check will
-     * represent.
      *
      * @param target
      *            the instance to run the comparison on
-     * @param methodName
-     *            the name of the original method
-     * @param erasure
-     *            the types of the parameters; {@code null} tolerated in case of a no-arg method
-     * @param parameters
-     *            the parameters to use for comparison; {@code null} tolerated in case of a no-arg
-     *            method
-     * @param checks
-     *            the number of times the performance checks will be run
-     * @param iterations
-     *            the number of times the method is executed during each check
-     * @return a list of performance check result
-     * @throws NoSuchMethodException
-     *             if the requested original method does not exist
-     */
-    public static List<ImplCheckResult> compare(Object target, String methodName,
-            Class<?>[] erasure, Object[] parameters, int checks, int iterations)
-            throws NoSuchMethodException {
-        return compare(target, target.getClass(), methodName, erasure, parameters, checks,
-                iterations);
-    }
-
-    /**
-     * Compares several implementations of a static method.
-     * <p/>
-     * The method variants should be named after the original method but suffixed with a 1-based
-     * integer index. The variants should have the same erasure and return type as the original
-     * method.
-     * <p/>
-     * Thus, if you wish to compare implementations of {@code aSimpleMethod(String, int)}, variants
-     * should be named {@code aSimpleMethod1(String, int)}, {@code aSimpleMethod2(String, int)}, and
-     * so on. Variants will be automatically detected using reflectivity.
-     * <p/>
-     * The default number of checks ({@value #DEFAULT_CHECKS}) and iterations per check (
-     * {@value #DEFAULT_ITERATIONS}) will be used.
-     *
      * @param klass
      *            the {@link Class} to run the comparison for
      * @param methodName
@@ -126,82 +151,8 @@ public final class ImplComparer {
      * @throws NoSuchMethodException
      *             if the requested original method does not exist
      */
-    public static List<ImplCheckResult> compareStatic(Class<?> klass, String methodName,
+    private List<ImplCheckResult> compare(Object target, Class<?> klass, String methodName,
             Class<?>[] erasure, Object[] parameters) throws NoSuchMethodException {
-        return compareStatic(klass, methodName, erasure, parameters, DEFAULT_CHECKS,
-                DEFAULT_ITERATIONS);
-    }
-
-    /**
-     * Compares several implementations of a static method.
-     * <p/>
-     * The method variants should be named after the original method but suffixed with a 1-based
-     * integer index. The variants should have the same erasure and return type as the original
-     * method.
-     * <p/>
-     * Thus, if you wish to compare implementations of {@code aSimpleMethod(String, int)}, variants
-     * should be named {@code aSimpleMethod1(String, int)}, {@code aSimpleMethod2(String, int)}, and
-     * so on. Variants will be automatically detected using reflectivity.
-     * <p/>
-     * You can set how many performance checks will be run, and how many iterations each check will
-     * represent.
-     *
-     * @param klass
-     *            the {@link Class} to run the comparison for
-     * @param methodName
-     *            the name of the original method
-     * @param erasure
-     *            the types of the parameters; {@code null} tolerated in case of a no-arg method
-     * @param parameters
-     *            the parameters to use for comparison; {@code null} tolerated in case of a no-arg
-     *            method
-     * @param checks
-     *            the number of times the performance checks will be run
-     * @param iterations
-     *            the number of times the method is executed during each check
-     * @return a list of performance check result
-     * @throws NoSuchMethodException
-     *             if the requested original method does not exist
-     */
-    public static List<ImplCheckResult> compareStatic(Class<?> klass, String methodName,
-            Class<?>[] erasure, Object[] parameters, int checks, int iterations)
-            throws NoSuchMethodException {
-        return compare(null, klass, methodName, erasure, parameters, checks, iterations);
-    }
-
-    /**
-     * Compares several implementations of a static method.
-     * <p/>
-     * The method variants should be named after the original method but suffixed with a 1-based
-     * integer index. The variants should have the same erasure and return type as the original
-     * method.
-     * <p/>
-     * Thus, if you wish to compare implementations of {@code aSimpleMethod(String, int)}, variants
-     * should be named {@code aSimpleMethod1(String, int)}, {@code aSimpleMethod2(String, int)}, and
-     * so on. Variants will be automatically detected using reflectivity.
-     *
-     * @param target
-     *            the instance to run the comparison on
-     * @param klass
-     *            the {@link Class} to run the comparison for
-     * @param methodName
-     *            the name of the original method
-     * @param erasure
-     *            the types of the parameters; {@code null} tolerated in case of a no-arg method
-     * @param parameters
-     *            the parameters to use for comparison; {@code null} tolerated in case of a no-arg
-     *            method
-     * @param checks
-     *            the number of times the performance checks will be run
-     * @param iterations
-     *            the number of times the method is executed during each check
-     * @return a list of performance check result
-     * @throws NoSuchMethodException
-     *             if the requested original method does not exist
-     */
-    private static List<ImplCheckResult> compare(Object target, Class<?> klass, String methodName,
-            Class<?>[] erasure, Object[] parameters, int checks, int iterations)
-            throws NoSuchMethodException {
         log.info(
                 "Beginning performance comparison for method <{}>, ({} check(s), {} iteration(s) per check",
                 methodName, checks, iterations);
@@ -236,7 +187,7 @@ public final class ImplComparer {
      * @throws NoSuchMethodException
      *             when the original method could not be found
      */
-    private static List<Method> loadMethods(Class<?> klass, String methodName, Class<?>[] erasure)
+    private List<Method> loadMethods(Class<?> klass, String methodName, Class<?>[] erasure)
             throws NoSuchMethodException {
         // Result list
         List<Method> methods = new ArrayList<Method>();
@@ -275,7 +226,7 @@ public final class ImplComparer {
      * @return a list of {@link ImplCheckResult} instances, initialized with the {@link Method} and
      *         return value
      */
-    private static List<ImplCheckResult> initCheckResultList(List<Method> methods, Object target,
+    private List<ImplCheckResult> initCheckResultList(List<Method> methods, Object target,
             Object[] parameters) {
         List<ImplCheckResult> results = new ArrayList<ImplCheckResult>();
         for (Method method : methods) {
@@ -295,7 +246,7 @@ public final class ImplComparer {
      *            the parameters to use when calling the method; {@code null} tolerated in case of a
      *            no-arg method
      */
-    private static void performTimeChecks(List<ImplCheckResult> results, Object target,
+    private void performTimeChecks(List<ImplCheckResult> results, Object target,
             Object[] parameters, int iterations) {
         for (ImplCheckResult result : results) {
             Method method = result.getMethod();
@@ -327,10 +278,13 @@ public final class ImplComparer {
      *            no-arg method
      * @return the method's result or the thrown exception if any
      */
-    private static Object invokeMethod(Object target, Method method, Object[] parameters) {
+    private Object invokeMethod(Object target, Method method, Object[] parameters) {
         Object result;
         try {
             result = method.invoke(target, parameters);
+        } catch (InvocationTargetException e) {
+            // the method throws an exception, return it
+            result = e.getCause();
         } catch (Exception e) {
             result = e;
         }
