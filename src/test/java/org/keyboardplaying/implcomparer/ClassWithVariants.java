@@ -38,9 +38,9 @@ public class ClassWithVariants {
     public static String hello2() {
         return new ClassWithVariants().string(hello());
     }
-    
+
     public void throwException() {
         throw new RuntimeException(
-            "This is only to test how the comparer behaves in case of an exception");
+                "This is only to test how the comparer behaves in case of an exception");
     }
 }

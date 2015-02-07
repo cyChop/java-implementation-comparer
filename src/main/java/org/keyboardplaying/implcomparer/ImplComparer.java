@@ -36,22 +36,21 @@ public final class ImplComparer {
      * method.
      * <p/>
      * Thus, if you wish to compare implementations of {@code aSimpleMethod(String, int)}, variants
-     * should be named {@code aSimpleMethod1(String, int)}, {@code aSimpleMethod2(String, int)},
-     * and so on. Variants will be automatically detected using reflectivity.
+     * should be named {@code aSimpleMethod1(String, int)}, {@code aSimpleMethod2(String, int)}, and
+     * so on. Variants will be automatically detected using reflectivity.
      * <p/>
-     * The default number of checks ({@value #DEFAULT_CHECKS}) and iterations per check
-     * ({@value #DEFAULT_ITERATIONS}) will be used.
+     * The default number of checks ({@value #DEFAULT_CHECKS}) and iterations per check (
+     * {@value #DEFAULT_ITERATIONS}) will be used.
      *
      * @param target
      *            the instance to run the comparison on
      * @param methodName
      *            the name of the original method
      * @param erasure
-     *            the types of the parameters; {@code null} tolerated in case of
-     *            a no-arg method
+     *            the types of the parameters; {@code null} tolerated in case of a no-arg method
      * @param parameters
-     *            the parameters to use for comparison; {@code null} tolerated
-     *            in case of a no-arg method
+     *            the parameters to use for comparison; {@code null} tolerated in case of a no-arg
+     *            method
      * @return a list of performance check result
      * @throws NoSuchMethodException
      *             if the requested original method does not exist
@@ -69,8 +68,8 @@ public final class ImplComparer {
      * method.
      * <p/>
      * Thus, if you wish to compare implementations of {@code aSimpleMethod(String, int)}, variants
-     * should be named {@code aSimpleMethod1(String, int)}, {@code aSimpleMethod2(String, int)},
-     * and so on. Variants will be automatically detected using reflectivity.
+     * should be named {@code aSimpleMethod1(String, int)}, {@code aSimpleMethod2(String, int)}, and
+     * so on. Variants will be automatically detected using reflectivity.
      * <p/>
      * You can set how many performance checks will be run, and how many iterations each check will
      * represent.
@@ -80,11 +79,10 @@ public final class ImplComparer {
      * @param methodName
      *            the name of the original method
      * @param erasure
-     *            the types of the parameters; {@code null} tolerated in case of
-     *            a no-arg method
+     *            the types of the parameters; {@code null} tolerated in case of a no-arg method
      * @param parameters
-     *            the parameters to use for comparison; {@code null} tolerated
-     *            in case of a no-arg method
+     *            the parameters to use for comparison; {@code null} tolerated in case of a no-arg
+     *            method
      * @param checks
      *            the number of times the performance checks will be run
      * @param iterations
@@ -108,22 +106,21 @@ public final class ImplComparer {
      * method.
      * <p/>
      * Thus, if you wish to compare implementations of {@code aSimpleMethod(String, int)}, variants
-     * should be named {@code aSimpleMethod1(String, int)}, {@code aSimpleMethod2(String, int)},
-     * and so on. Variants will be automatically detected using reflectivity.
+     * should be named {@code aSimpleMethod1(String, int)}, {@code aSimpleMethod2(String, int)}, and
+     * so on. Variants will be automatically detected using reflectivity.
      * <p/>
-     * The default number of checks ({@value #DEFAULT_CHECKS}) and iterations per check
-     * ({@value #DEFAULT_ITERATIONS}) will be used.
+     * The default number of checks ({@value #DEFAULT_CHECKS}) and iterations per check (
+     * {@value #DEFAULT_ITERATIONS}) will be used.
      *
      * @param klass
      *            the {@link Class} to run the comparison for
      * @param methodName
      *            the name of the original method
      * @param erasure
-     *            the types of the parameters; {@code null} tolerated in case of
-     *            a no-arg method
+     *            the types of the parameters; {@code null} tolerated in case of a no-arg method
      * @param parameters
-     *            the parameters to use for comparison; {@code null} tolerated
-     *            in case of a no-arg method
+     *            the parameters to use for comparison; {@code null} tolerated in case of a no-arg
+     *            method
      * @return a list of performance check result
      * @throws NoSuchMethodException
      *             if the requested original method does not exist
@@ -142,8 +139,8 @@ public final class ImplComparer {
      * method.
      * <p/>
      * Thus, if you wish to compare implementations of {@code aSimpleMethod(String, int)}, variants
-     * should be named {@code aSimpleMethod1(String, int)}, {@code aSimpleMethod2(String, int)},
-     * and so on. Variants will be automatically detected using reflectivity.
+     * should be named {@code aSimpleMethod1(String, int)}, {@code aSimpleMethod2(String, int)}, and
+     * so on. Variants will be automatically detected using reflectivity.
      * <p/>
      * You can set how many performance checks will be run, and how many iterations each check will
      * represent.
@@ -153,11 +150,10 @@ public final class ImplComparer {
      * @param methodName
      *            the name of the original method
      * @param erasure
-     *            the types of the parameters; {@code null} tolerated in case of
-     *            a no-arg method
+     *            the types of the parameters; {@code null} tolerated in case of a no-arg method
      * @param parameters
-     *            the parameters to use for comparison; {@code null} tolerated
-     *            in case of a no-arg method
+     *            the parameters to use for comparison; {@code null} tolerated in case of a no-arg
+     *            method
      * @param checks
      *            the number of times the performance checks will be run
      * @param iterations
@@ -180,8 +176,8 @@ public final class ImplComparer {
      * method.
      * <p/>
      * Thus, if you wish to compare implementations of {@code aSimpleMethod(String, int)}, variants
-     * should be named {@code aSimpleMethod1(String, int)}, {@code aSimpleMethod2(String, int)},
-     * and so on. Variants will be automatically detected using reflectivity.
+     * should be named {@code aSimpleMethod1(String, int)}, {@code aSimpleMethod2(String, int)}, and
+     * so on. Variants will be automatically detected using reflectivity.
      *
      * @param target
      *            the instance to run the comparison on
@@ -190,11 +186,10 @@ public final class ImplComparer {
      * @param methodName
      *            the name of the original method
      * @param erasure
-     *            the types of the parameters; {@code null} tolerated in case of
-     *            a no-arg method
+     *            the types of the parameters; {@code null} tolerated in case of a no-arg method
      * @param parameters
-     *            the parameters to use for comparison; {@code null} tolerated
-     *            in case of a no-arg method
+     *            the parameters to use for comparison; {@code null} tolerated in case of a no-arg
+     *            method
      * @param checks
      *            the number of times the performance checks will be run
      * @param iterations
@@ -206,12 +201,13 @@ public final class ImplComparer {
     private static List<ImplCheckResult> compare(Object target, Class<?> klass, String methodName,
             Class<?>[] erasure, Object[] parameters, int checks, int iterations)
             throws NoSuchMethodException {
-        log.info("Beginning performance comparison for method <{}>, ({} check(s), {} iteration(s) per check",
+        log.info(
+                "Beginning performance comparison for method <{}>, ({} check(s), {} iteration(s) per check",
                 methodName, checks, iterations);
         List<Method> methods = loadMethods(klass, methodName, erasure);
 
         log.debug("{} variants found (including original).", methods.size());
-        List<ImplCheckResult> results =  initCheckResultList(methods, target, parameters);
+        List<ImplCheckResult> results = initCheckResultList(methods, target, parameters);
         for (int c = 0; c < checks; c++) {
             log.debug("Beginning time check #{}", c);
             performTimeChecks(results, target, parameters, iterations);
@@ -233,10 +229,9 @@ public final class ImplComparer {
      * @param methodName
      *            the name of the original method
      * @param erasure
-     *            the types of the parameters; {@code null} tolerated in case of
-     *            a no-arg method
-     * @return a {@code List} beginning with the original {@link Method} and the
-     *         followed with its suffixed variants
+     *            the types of the parameters; {@code null} tolerated in case of a no-arg method
+     * @return a {@code List} beginning with the original {@link Method} and the followed with its
+     *         suffixed variants
      * @throws NoSuchMethodException
      *             when the original method could not be found
      */
@@ -263,8 +258,8 @@ public final class ImplComparer {
     }
 
     /**
-     * Initializes a list of {@link ImplCheckResult} from a list of {@link Method}, the
-     * object to call the method on and the parameters for the call.
+     * Initializes a list of {@link ImplCheckResult} from a list of {@link Method}, the object to
+     * call the method on and the parameters for the call.
      * <p/>
      * The elements of the result will not contain performance-related information, only the
      * {@link Method} and return value.
@@ -274,17 +269,16 @@ public final class ImplComparer {
      * @param target
      *            the instance to call the method on; {@code null} tolerated for static methods
      * @param parameters
-     *            the parameters to use when calling the method; {@code null} tolerated
-     *            in case of a no-arg method
-     * @return a list of {@link ImplCheckResult} instances, initialized with the
-     *      {@link Method} and return value
+     *            the parameters to use when calling the method; {@code null} tolerated in case of a
+     *            no-arg method
+     * @return a list of {@link ImplCheckResult} instances, initialized with the {@link Method} and
+     *         return value
      */
     private static List<ImplCheckResult> initCheckResultList(List<Method> methods, Object target,
             Object[] parameters) {
         List<ImplCheckResult> results = new ArrayList<ImplCheckResult>();
         for (Method method : methods) {
-            results.add(new ImplCheckResult(method,
-                    invokeMethod(target, method, parameters)));
+            results.add(new ImplCheckResult(method, invokeMethod(target, method, parameters)));
         }
         return results;
     }
@@ -293,13 +287,12 @@ public final class ImplComparer {
      * Perform a time check for each {@link ImplCheckResult} supplied in parameters.
      *
      * @param results
-     *            the {@link ImplCheckResult} instances to enrich with performance
-     *            information
+     *            the {@link ImplCheckResult} instances to enrich with performance information
      * @param target
      *            the instance to call the method on; {@code null} tolerated for static methods
      * @param parameters
-     *            the parameters to use when calling the method; {@code null} tolerated
-     *            in case of a no-arg method
+     *            the parameters to use when calling the method; {@code null} tolerated in case of a
+     *            no-arg method
      */
     private static void performTimeChecks(List<ImplCheckResult> results, Object target,
             Object[] parameters, int iterations) {
@@ -329,8 +322,8 @@ public final class ImplComparer {
      * @param method
      *            the method to invoke
      * @param parameters
-     *            the parameters to use when calling the method; {@code null} tolerated
-     *            in case of a no-arg method
+     *            the parameters to use when calling the method; {@code null} tolerated in case of a
+     *            no-arg method
      * @return the method's result or the thrown exception if any
      */
     private static Object invokeMethod(Object target, Method method, Object[] parameters) {

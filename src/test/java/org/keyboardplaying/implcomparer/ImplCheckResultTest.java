@@ -3,7 +3,6 @@ package org.keyboardplaying.implcomparer;
 import static org.junit.Assert.assertEquals;
 
 import java.lang.reflect.Method;
-import java.util.List;
 
 import org.junit.Test;
 
@@ -20,7 +19,8 @@ public class ImplCheckResultTest {
     @Test
     public void testCheckResult() throws NoSuchMethodException {
         // quick and dirty way to have a method
-        Method method = new Object(){}.getClass().getEnclosingMethod();
+        Method method = new Object() {
+        }.getClass().getEnclosingMethod();
         Object result = "A random result";
 
         ImplCheckResult cResult = new ImplCheckResult(method, result);

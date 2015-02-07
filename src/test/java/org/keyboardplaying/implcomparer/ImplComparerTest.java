@@ -18,16 +18,14 @@ public class ImplComparerTest {
     @Test(expected = NoSuchMethodException.class)
     public void testNoSuchMethod() throws NoSuchMethodException {
         ClassWithVariants target = new ClassWithVariants();
-        List<ImplCheckResult> comparison =
-                ImplComparer.compare(target, "notHere", new Class<?>[] { String.class },
+        ImplComparer.compare(target, "notHere", new Class<?>[] { String.class },
                 new Object[] { "A String param" });
     }
 
     @Test(expected = NoSuchMethodException.class)
     public void testNoSuchMethodStatic() throws NoSuchMethodException {
-        List<ImplCheckResult> comparison =
-                ImplComparer.compareStatic(ClassWithVariants.class, "notHere",
-                new Class<?>[] {}, new Object[] {});
+        ImplComparer.compareStatic(ClassWithVariants.class, "notHere", new Class<?>[] {},
+                new Object[] {});
     }
 
     @Test
@@ -35,9 +33,8 @@ public class ImplComparerTest {
         String prm = "A String param";
 
         ClassWithVariants target = new ClassWithVariants();
-        List<ImplCheckResult> comparison =
-                ImplComparer.compare(target, "string", new Class<?>[] { String.class },
-                new Object[] { prm });
+        List<ImplCheckResult> comparison = ImplComparer.compare(target, "string",
+                new Class<?>[] { String.class }, new Object[] { prm });
 
         assertEquals("Incorrect number of variants", 3, comparison.size());
         for (ImplCheckResult result : comparison) {
@@ -52,15 +49,14 @@ public class ImplComparerTest {
         assertEquals("string", string.getMethod().getName());
         assertEquals("string2", string2.getMethod().getName());
         // Do test
-        assertTrue("Unexpected performances", string2.getAverageExecutionTime()
-            < string.getAverageExecutionTime());
+        assertTrue("Unexpected performances",
+                string2.getAverageExecutionTime() < string.getAverageExecutionTime());
     }
 
     @Test
     public void testCompareStatic() throws NoSuchMethodException {
-        List<ImplCheckResult> comparison =
-                ImplComparer.compareStatic(ClassWithVariants.class, "hello",
-                new Class<?>[] {}, new Object[] {}, 5, 1000);
+        List<ImplCheckResult> comparison = ImplComparer.compareStatic(ClassWithVariants.class,
+                "hello", new Class<?>[] {}, new Object[] {}, 5, 1000);
 
         assertEquals("Incorrect number of variants", 3, comparison.size());
 
@@ -77,8 +73,8 @@ public class ImplComparerTest {
         assertEquals("Hello, World!", hello.getMethodResult());
         assertNotEquals("Hello, World!", hello1.getMethodResult());
         assertEquals("Hello, World!", hello2.getMethodResult());
-        assertTrue("Unexpected performances", hello.getAverageExecutionTime()
-            < hello2.getAverageExecutionTime());
+        assertTrue("Unexpected performances",
+                hello.getAverageExecutionTime() < hello2.getAverageExecutionTime());
     }
 
     @Test
@@ -86,7 +82,7 @@ public class ImplComparerTest {
         ImplComparer.compare(new ClassWithVariants(), "noArgMethod", null, null, 1, 10);
         ImplComparer.compareStatic(ClassWithVariants.class, "hello", null, null, 1, 10);
     }
-    
+
     @Test
     public void testExceptionalMethod() throws NoSuchMethodException {
         ImplComparer.compare(new ClassWithVariants(), "throwException", null, null);

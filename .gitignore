@@ -1,5 +1,8 @@
 target/
 .c9/
+.settings/
+.classpath
+.project
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup

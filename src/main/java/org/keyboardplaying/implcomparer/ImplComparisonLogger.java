@@ -3,12 +3,9 @@ package org.keyboardplaying.implcomparer;
 import java.util.List;
 import java.util.Objects;
 
-import org.alcibiade.asciiart.raster.CharacterRaster;
-import org.alcibiade.asciiart.raster.ExtensibleCharacterRaster;
-import org.alcibiade.asciiart.raster.RasterContext;
 import org.alcibiade.asciiart.slf4j.AsciiArtLogger;
-import org.alcibiade.asciiart.widget.model.AbstractTableModel;
 import org.alcibiade.asciiart.widget.TableWidget;
+import org.alcibiade.asciiart.widget.model.AbstractTableModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,54 +69,51 @@ public final class ImplComparisonLogger {
         private Object referenceResult;
         private boolean referenceSet = false;
 
-        private final ImplComparisonColumn[] columns = {
-            new ImplComparisonColumn() {
-                @Override
-                public String getTitle() {
-                    return "Method";
-                }
-
-                @Override
-                public String getValue(ImplCheckResult result) {
-                    return result.getMethod().getName();
-                }
-            },
-            new ImplComparisonColumn() {
-                @Override
-                public String getTitle() {
-                    return "Avg time (ms)";
-                }
-
-                @Override
-                public String getValue(ImplCheckResult result) {
-                    return String.valueOf(result.getAverageExecutionTime());
-                }
-            },
-            new ImplComparisonColumn() {
-                @Override
-                public String getTitle() {
-                    return "Result";
-                }
-
-                @Override
-                public String getValue(ImplCheckResult result) {
-                    String content;
-                    if (referenceSet) {
-                        if (referenceResult == result.getMethodResult()) {
-                            content = "   " + NAME_REF;
-                        } else {
-                            content = (Objects.equals(referenceResult, result.getMethodResult()) ?
-                                    "== " : "!= ") + NAME_REF;
-                        }
-                    } else {
-                        referenceResult = result.getMethodResult();
-                        referenceSet = true;
-                        content = "   " + NAME_REF;
-                    }
-                    return content;
-                }
+        private final ImplComparisonColumn[] columns = { new ImplComparisonColumn() {
+            @Override
+            public String getTitle() {
+                return "Method";
             }
-        };
+
+            @Override
+            public String getValue(ImplCheckResult result) {
+                return result.getMethod().getName();
+            }
+        }, new ImplComparisonColumn() {
+            @Override
+            public String getTitle() {
+                return "Avg time (ms)";
+            }
+
+            @Override
+            public String getValue(ImplCheckResult result) {
+                return String.valueOf(result.getAverageExecutionTime());
+            }
+        }, new ImplComparisonColumn() {
+            @Override
+            public String getTitle() {
+                return "Result";
+            }
+
+            @Override
+            public String getValue(ImplCheckResult result) {
+                String content;
+                if (referenceSet) {
+                    if (referenceResult == result.getMethodResult()) {
+                        content = "   " + NAME_REF;
+                    } else {
+                        content = (Objects.equals(referenceResult, result.getMethodResult()) ? "== "
+                                : "!= ")
+                                + NAME_REF;
+                    }
+                } else {
+                    referenceResult = result.getMethodResult();
+                    referenceSet = true;
+                    content = "   " + NAME_REF;
+                }
+                return content;
+            }
+        } };
 
         private List<ImplCheckResult> results;
 

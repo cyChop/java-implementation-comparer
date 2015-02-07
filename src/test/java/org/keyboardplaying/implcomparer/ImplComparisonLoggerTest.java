@@ -7,10 +7,6 @@ import static org.mockito.Mockito.verify;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.spi.LoggingEvent;
-import ch.qos.logback.core.Appender;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +17,12 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.LoggerFactory;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.classic.spi.LoggingEvent;
+import ch.qos.logback.core.Appender;
+
 /**
  * Test cases for {@link ImplComparisonLogger}.
  *
@@ -30,7 +32,7 @@ import org.slf4j.LoggerFactory;
 public class ImplComparisonLoggerTest {
 
     @Mock
-    private Appender mockAppender;
+    private Appender<ILoggingEvent> mockAppender;
     @Captor
     private ArgumentCaptor<LoggingEvent> captorLoggingEvent;
 
@@ -43,6 +45,7 @@ public class ImplComparisonLoggerTest {
 
     @After
     public void teardown() {
+        // Remove the appender before destroy
         Logger logger = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
         logger.detachAppender(mockAppender);
     }
@@ -52,25 +55,27 @@ public class ImplComparisonLoggerTest {
 
         /* Build sample data */
         List<ImplCheckResult> results = new ArrayList<ImplCheckResult>();
-        results.add(new ImplCheckResult(ClassWithVariants.class.getMethod("hello", null), ClassWithVariants.hello()));
-        results.add(new ImplCheckResult(ClassWithVariants.class.getMethod("hello1", null), ClassWithVariants.hello1()));
-        results.add(new ImplCheckResult(ClassWithVariants.class.getMethod("hello2", null), ClassWithVariants.hello2()));
+        results.add(new ImplCheckResult(ClassWithVariants.class.getMethod("hello"),
+                ClassWithVariants.hello()));
+        results.add(new ImplCheckResult(ClassWithVariants.class.getMethod("hello1"),
+                ClassWithVariants.hello1()));
+        results.add(new ImplCheckResult(ClassWithVariants.class.getMethod("hello2"),
+                ClassWithVariants.hello2()));
         for (ImplCheckResult result : results) {
             result.addExecutionTime(1337, 42);
         }
 
         /* Build expectations */
         // Make sure the test is JVM-proof
-        String execTime = String.valueOf(1337.0  / 42.0);
+        String execTime = String.valueOf(1337.0 / 42.0);
         int length = execTime.length();
         String separator = "+--------+-" + new String(new char[length]).replace("\0", "-")
                 + "-+--------+";
-        String[] expectedLog = { separator, "| Method | Avg time (ms)"
-                + new String(new char[length - 13]).replace("\0", " ") + " | Result |",
+        String[] expectedLog = {
                 separator,
-                "| hello  | " + execTime + " |    REF |",
-                "| hello1 | " + execTime + " | != REF |",
-                "| hello2 | " + execTime + " | == REF |",
+                "| Method | Avg time (ms)" + new String(new char[length - 13]).replace("\0", " ")
+                        + " | Result |", separator, "| hello  | " + execTime + " |    REF |",
+                "| hello1 | " + execTime + " | != REF |", "| hello2 | " + execTime + " | == REF |",
                 separator };
 
         /* Execute the code to test. */
