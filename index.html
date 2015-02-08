@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Implementation comparer by cyChop</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Implementation comparer</h1>
+        <h2>A utility to compare performances on several implementation of a Java method</h2>
+        <a href="https://github.com/cyChop/java-implementation-comparer" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="what-will-i-get-from-it" class="anchor" href="#what-will-i-get-from-it" aria-hidden="true"><span class="octicon octicon-link"></span></a>What will I get from it?</h1>
+
+<p>When using the comparison algorithm and logger, you will obtain this kind of output:</p>
+
+<pre><code>o.k.c.c.ImplComparer - Beginning performance comparison for method &lt;hello&gt;, (3 check(s), 10000 iteration(s) per check
+o.k.c.c.ImplComparisonLogger - +--------+--------------------+--------+
+o.k.c.c.ImplComparisonLogger - | Method | Avg time (ms)      | Result |
+o.k.c.c.ImplComparisonLogger - +--------+--------------------+--------+
+o.k.c.c.ImplComparisonLogger - | hello  | 3.6887             |    REF |
+o.k.c.c.ImplComparisonLogger - | hello1 | 2.7880666666666665 | == REF |
+o.k.c.c.ImplComparisonLogger - | hello2 | 1.9368             | == REF |
+o.k.c.c.ImplComparisonLogger - +--------+--------------------+--------+
+</code></pre>
+
+<p>The columns are the following:</p>
+
+<ol>
+<li>
+<strong>Method</strong>: the name of the method being evaluated;</li>
+<li>
+<strong>Avg time (ms)</strong>: the average execution time during the verification, in milliseconds;</li>
+<li>
+<strong>Result</strong>: a comparison of results:
+
+<ul>
+<li>
+<code>REF</code>: for the reference (first) result, either if results both point to the same sector or both are <code>void</code> or <code>null</code>;</li>
+<li>
+<code>== REF</code>: for a result equal to the reference result (using the <code>.equals(Object)</code> method);</li>
+<li>
+<code>!= REF</code>: for a result not equal to the reference result (using the <code>.equals(Object)</code> method).</li>
+</ul>
+</li>
+</ol>
+
+<h1>
+<a id="how-to-use-it" class="anchor" href="#how-to-use-it" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use it?</h1>
+
+<h2>
+<a id="create-a-test-project" class="anchor" href="#create-a-test-project" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create a test project</h2>
+
+<p>This is a suggestion of course, but it seems ill-advised to add the comparer as a dependency to
+your project: it is only a programming tool.</p>
+
+<p>You should add the project containing the class you wish to test as a dependency to your project.</p>
+
+<h2>
+<a id="adding-the-comparer-to-your-dependencies" class="anchor" href="#adding-the-comparer-to-your-dependencies" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding the comparer to your dependencies</h2>
+
+<p>This project is <em>not</em> available on any Maven repository. You must therefore:</p>
+
+<ol>
+<li>clone this project in your own workspace;</li>
+<li>install it to your local repository using the <code>mvn install</code> command;</li>
+<li>
+<p>add it as a dependency to your project:</p>
+
+<div class="highlight highlight-xml"><pre>&lt;<span class="pl-ent">dependency</span>&gt;
+  &lt;<span class="pl-ent">groupId</span>&gt;org.keyboardplaying&lt;/<span class="pl-ent">groupId</span>&gt;
+  &lt;<span class="pl-ent">artifactId</span>&gt;java-implementation-comparer&lt;/<span class="pl-ent">artifactId</span>&gt;
+  &lt;<span class="pl-ent">version</span>&gt;1.0.0&lt;/<span class="pl-ent">version</span>&gt;
+&lt;/<span class="pl-ent">dependency</span>&gt;</pre></div>
+</li>
+</ol>
+
+<h2>
+<a id="comparing-and-logging" class="anchor" href="#comparing-and-logging" aria-hidden="true"><span class="octicon octicon-link"></span></a>Comparing and logging</h2>
+
+<h3>
+<a id="preparing-variants" class="anchor" href="#preparing-variants" aria-hidden="true"><span class="octicon octicon-link"></span></a>Preparing variants</h3>
+
+<p>For instance, if I want to compare several implementations of the method
+<code>public static String hello(String name)</code>, you will have to write methods with the
+<em>exact same</em> signature (return type, parameters) but adding a number at the end of the name of the
+method, e.g. <code>public static String hello1(String name)</code>.</p>
+
+<p>The algorithm will search all methods with the same signature and increment the suffix until no more
+variant is found.</p>
+
+<h3>
+<a id="perform-the-comparison" class="anchor" href="#perform-the-comparison" aria-hidden="true"><span class="octicon octicon-link"></span></a>Perform the comparison</h3>
+
+<p>I personally tend to create a <code>TestClass</code> and make a <code>main</code> which execute the comparison.
+Below is an example:</p>
+
+<div class="highlight highlight-java"><pre>    <span class="pl-s">public</span> <span class="pl-s">static</span> <span class="pl-st">void</span> main(<span class="pl-st">String</span>[] args) throws <span class="pl-stj">NoSuchMethodException</span>, <span class="pl-stj">IllegalAccessException</span>,
+            <span class="pl-stj">IllegalArgumentException</span> {
+        <span class="pl-c">/* Prepare the comparer */</span>
+        <span class="pl-stj">ImplComparer</span> cmp <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">ImplComparer</span>();
+        <span class="pl-c">/* Uncomment to override default settings */</span>
+        <span class="pl-c">// cmp.setChecks(3);</span>
+        <span class="pl-c">// cmp.setIterations(10000);</span>
+
+        <span class="pl-st">List&lt;<span class="pl-stj">ImplCheckResult</span>&gt;</span> results <span class="pl-k">=</span> cmp<span class="pl-k">.</span>compareStatic(<span class="pl-stj">ToBeTested</span><span class="pl-k">.</span>class, <span class="pl-s1"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span>,
+                <span class="pl-k">new</span> Class&lt;?&gt;[] { <span class="pl-stj">String</span><span class="pl-k">.</span>class }, <span class="pl-k">new</span> <span class="pl-stj">Object</span>[] { <span class="pl-s1"><span class="pl-pds">"</span>Chop<span class="pl-pds">"</span></span> });
+        <span class="pl-c">/* Non-static method variant */</span>
+        <span class="pl-c">// List&lt;ImplCheckResult&gt; results = cmp.compare(new ToBeTested(), "hello",</span>
+        <span class="pl-c">// new Class&lt;?&gt;[] { String.class }, new Object[] { "Chop" });</span>
+
+        <span class="pl-c">/* Print the result */</span>
+        <span class="pl-stj">ImplComparisonLogger</span> logger <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">ImplComparisonLogger</span>();
+        logger<span class="pl-k">.</span>log(results);
+    }</pre></div>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/cyChop/java-implementation-comparer/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/cyChop/java-implementation-comparer/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/cyChop/java-implementation-comparer"></a> is maintained by <a href="https://github.com/cyChop">cyChop</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
