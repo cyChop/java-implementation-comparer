@@ -7,7 +7,8 @@ jdk:
 
 before_install:
   - git clone https://github.com/cyChop/github-hosted-maven-kp-project.git parent-pom
-  - mvn install parent-pom
+  - git checkout tags/v1.0.0
+  - mvn install -f parent-pom/pom.xml
 
 after_success:
   - mvn cobertura:cobertura coveralls:report

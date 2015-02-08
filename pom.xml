@@ -6,7 +6,7 @@
     <!-- See https://github.com/cyChop/github-kp-maven-project -->
     <groupId>org.keyboardplaying</groupId>
     <artifactId>github-hosted-maven-kp-project</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
   </parent>
 
   <artifactId>java-implementation-comparer</artifactId>
@@ -37,9 +37,6 @@
     <asciiart.version>1.0.0</asciiart.version>
     <junit.version>4.12</junit.version>
     <mockito.version>1.10.19</mockito.version>
-    <!-- Version management - coverage -->
-    <cobertura.plugin.version>2.6</cobertura.plugin.version>
-    <coveralls.plugin.version>3.0.1</coveralls.plugin.version>
   </properties>
 
   <dependencies>
