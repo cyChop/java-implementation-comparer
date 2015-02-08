@@ -38,6 +38,7 @@ public class ImplComparisonLoggerTest {
     @Captor
     private ArgumentCaptor<LoggingEvent> captorLoggingEvent;
 
+    /** Adds an appender to the root logger in order to capture all the log. */
     @Before
     public void setup() {
         // Add the appender to the root logger
@@ -45,6 +46,7 @@ public class ImplComparisonLoggerTest {
         logger.addAppender(mockAppender);
     }
 
+    /** Removes the appender previously added for the test. */
     @After
     public void teardown() {
         // Remove the appender before destroy
@@ -52,6 +54,12 @@ public class ImplComparisonLoggerTest {
         logger.detachAppender(mockAppender);
     }
 
+    /**
+     * Ensures the logging of the result as a comparative array is as expected.
+     *
+     * @throws NoSuchMethodException
+     *             never
+     */
     @Test
     public void testLog() throws NoSuchMethodException {
 

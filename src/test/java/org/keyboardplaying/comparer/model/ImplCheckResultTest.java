@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.lang.reflect.Method;
 
 import org.junit.Test;
-import org.keyboardplaying.comparer.model.ImplCheckResult;
 
 /**
  * Test cases for {@link ImplCheckResult}.
@@ -17,6 +16,12 @@ public class ImplCheckResultTest {
     private static final double DELTA = 0.0000001;
     private static final double EXACT = 0.;
 
+    /**
+     * Tests the getters and setters of an {@link ImplCheckResult}.
+     *
+     * @throws NoSuchMethodException
+     *             never thrown
+     */
     @Test
     public void testCheckResult() throws NoSuchMethodException {
         // quick and dirty way to have a method

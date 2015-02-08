@@ -90,9 +90,20 @@ public final class ImplComparer {
      * @return a list of performance check result
      * @throws NoSuchMethodException
      *             if the requested original method does not exist
+     * @throws IllegalArgumentException
+     *             if the method is an instance method and the specified object argument is not an
+     *             instance of the class or interface declaring the underlying method (or of a
+     *             subclass or implementor thereof); if the number of actual and formal parameters
+     *             differ; if an unwrapping conversion for primitive arguments fails; or if, after
+     *             possible unwrapping, a parameter value cannot be converted to the corresponding
+     *             formal parameter type by a method invocation conversion.
+     * @throws IllegalAccessException
+     *             if this {@code Method} object is enforcing Java language access control and the
+     *             underlying method is inaccessible.
      */
     public List<ImplCheckResult> compare(Object target, String methodName, Class<?>[] erasure,
-            Object[] parameters) throws NoSuchMethodException {
+            Object[] parameters) throws NoSuchMethodException, IllegalAccessException,
+            IllegalArgumentException {
         return compare(target, target.getClass(), methodName, erasure, parameters);
     }
 
@@ -119,9 +130,20 @@ public final class ImplComparer {
      * @return a list of performance check result
      * @throws NoSuchMethodException
      *             if the requested original method does not exist
+     * @throws IllegalArgumentException
+     *             if the method is an instance method and the specified object argument is not an
+     *             instance of the class or interface declaring the underlying method (or of a
+     *             subclass or implementor thereof); if the number of actual and formal parameters
+     *             differ; if an unwrapping conversion for primitive arguments fails; or if, after
+     *             possible unwrapping, a parameter value cannot be converted to the corresponding
+     *             formal parameter type by a method invocation conversion.
+     * @throws IllegalAccessException
+     *             if this {@code Method} object is enforcing Java language access control and the
+     *             underlying method is inaccessible.
      */
     public List<ImplCheckResult> compareStatic(Class<?> klass, String methodName,
-            Class<?>[] erasure, Object[] parameters) throws NoSuchMethodException {
+            Class<?>[] erasure, Object[] parameters) throws NoSuchMethodException,
+            IllegalAccessException, IllegalArgumentException {
         return compare(null, klass, methodName, erasure, parameters);
     }
 
@@ -150,19 +172,31 @@ public final class ImplComparer {
      * @return a list of performance check result
      * @throws NoSuchMethodException
      *             if the requested original method does not exist
+     * @throws IllegalArgumentException
+     *             if the method is an instance method and the specified object argument is not an
+     *             instance of the class or interface declaring the underlying method (or of a
+     *             subclass or implementor thereof); if the number of actual and formal parameters
+     *             differ; if an unwrapping conversion for primitive arguments fails; or if, after
+     *             possible unwrapping, a parameter value cannot be converted to the corresponding
+     *             formal parameter type by a method invocation conversion.
+     * @throws IllegalAccessException
+     *             if this {@code Method} object is enforcing Java language access control and the
+     *             underlying method is inaccessible.
      */
     private List<ImplCheckResult> compare(Object target, Class<?> klass, String methodName,
-            Class<?>[] erasure, Object[] parameters) throws NoSuchMethodException {
+            Class<?>[] erasure, Object[] parameters) throws NoSuchMethodException,
+            IllegalAccessException, IllegalArgumentException {
         log.info(
                 "Beginning performance comparison for method <{}>, ({} check(s), {} iteration(s) per check",
                 methodName, checks, iterations);
         List<Method> methods = loadMethods(klass, methodName, erasure);
 
+        Object[] prms = parameters == null ? new Object[0] : parameters;
         log.debug("{} variants found (including original).", methods.size());
-        List<ImplCheckResult> results = initCheckResultList(methods, target, parameters);
+        List<ImplCheckResult> results = initCheckResultList(methods, target, prms);
         for (int c = 0; c < checks; c++) {
             log.debug("Beginning time check #{}", c);
-            performTimeChecks(results, target, parameters, iterations);
+            performTimeChecks(results, target, prms, iterations);
         }
         return results;
     }
@@ -225,9 +259,19 @@ public final class ImplComparer {
      *            no-arg method
      * @return a list of {@link ImplCheckResult} instances, initialized with the {@link Method} and
      *         return value
+     * @throws IllegalArgumentException
+     *             if the method is an instance method and the specified object argument is not an
+     *             instance of the class or interface declaring the underlying method (or of a
+     *             subclass or implementor thereof); if the number of actual and formal parameters
+     *             differ; if an unwrapping conversion for primitive arguments fails; or if, after
+     *             possible unwrapping, a parameter value cannot be converted to the corresponding
+     *             formal parameter type by a method invocation conversion.
+     * @throws IllegalAccessException
+     *             if this {@code Method} object is enforcing Java language access control and the
+     *             underlying method is inaccessible.
      */
     private List<ImplCheckResult> initCheckResultList(List<Method> methods, Object target,
-            Object[] parameters) {
+            Object[] parameters) throws IllegalAccessException, IllegalArgumentException {
         List<ImplCheckResult> results = new ArrayList<ImplCheckResult>();
         for (Method method : methods) {
             results.add(new ImplCheckResult(method, invokeMethod(target, method, parameters)));
@@ -245,9 +289,20 @@ public final class ImplComparer {
      * @param parameters
      *            the parameters to use when calling the method; {@code null} tolerated in case of a
      *            no-arg method
+     * @throws IllegalArgumentException
+     *             if the method is an instance method and the specified object argument is not an
+     *             instance of the class or interface declaring the underlying method (or of a
+     *             subclass or implementor thereof); if the number of actual and formal parameters
+     *             differ; if an unwrapping conversion for primitive arguments fails; or if, after
+     *             possible unwrapping, a parameter value cannot be converted to the corresponding
+     *             formal parameter type by a method invocation conversion.
+     * @throws IllegalAccessException
+     *             if this {@code Method} object is enforcing Java language access control and the
+     *             underlying method is inaccessible.
      */
     private void performTimeChecks(List<ImplCheckResult> results, Object target,
-            Object[] parameters, int iterations) {
+            Object[] parameters, int iterations) throws IllegalAccessException,
+            IllegalArgumentException {
         for (ImplCheckResult result : results) {
             Method method = result.getMethod();
             log.debug("Beginning new time check for <{}>", method.getName());
@@ -277,16 +332,25 @@ public final class ImplComparer {
      *            the parameters to use when calling the method; {@code null} tolerated in case of a
      *            no-arg method
      * @return the method's result or the thrown exception if any
+     * @throws IllegalArgumentException
+     *             if the method is an instance method and the specified object argument is not an
+     *             instance of the class or interface declaring the underlying method (or of a
+     *             subclass or implementor thereof); if the number of actual and formal parameters
+     *             differ; if an unwrapping conversion for primitive arguments fails; or if, after
+     *             possible unwrapping, a parameter value cannot be converted to the corresponding
+     *             formal parameter type by a method invocation conversion.
+     * @throws IllegalAccessException
+     *             if this {@code Method} object is enforcing Java language access control and the
+     *             underlying method is inaccessible.
      */
-    private Object invokeMethod(Object target, Method method, Object[] parameters) {
+    private Object invokeMethod(Object target, Method method, Object[] parameters)
+            throws IllegalAccessException, IllegalArgumentException {
         Object result;
         try {
             result = method.invoke(target, parameters);
         } catch (InvocationTargetException e) {
             // the method throws an exception, return it
             result = e.getCause();
-        } catch (Exception e) {
-            result = e;
         }
         return result;
     }
