@@ -19,6 +19,18 @@ import org.keyboardplaying.comparer.test.ClassWithVariants;
 public class ImplComparerTest {
 
     /**
+     * Tests the configuration of the comparer.
+     */
+    @Test
+    public void testConfiguration() {
+        ImplComparer comparer = new ImplComparer();
+        comparer.setChecks(42);
+        comparer.setIterations(1337);
+        assertEquals(42, comparer.getChecks());
+        assertEquals(1337, comparer.getIterations());
+    }
+
+    /**
      * Tests the calling of the comparison for a method which does not exist.
      *
      * @throws NoSuchMethodException
