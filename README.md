@@ -67,7 +67,7 @@ method, e.g. ``public static String hello1(String name)``.
 The algorithm will search all methods with the same signature and increment the suffix until no more
 variant is found.
 
-### Perform the comparison
+#### Perform the comparison
 
 I personally tend to create a ``TestClass`` and make a ``main`` which execute the comparison.
 Below is an example:
