@@ -5,5 +5,9 @@ jdk:
   - oraclejdk7
 #  - openjdk6
 
+before_install:
+  - git clone https://github.com/cyChop/github-hosted-maven-kp-project.git parent-pom
+  - mvn install parent-pom
+
 after_success:
   - mvn cobertura:cobertura coveralls:report

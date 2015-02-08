@@ -7,4 +7,5 @@ A utility to compare performances on several implementation of a Java method
 
 ## TODOs
 
-* Make a CommandLine launcher
+* Turn README into a documentation
+* Turn documentation-README into a gh-page
