@@ -46,6 +46,7 @@ This project is _not_ available on any Maven repository. You must therefore:
 1. clone this project in your own workspace;
 2. install it to your local repository using the ``mvn install`` command;
 3. add it as a dependency to your project:
+
   ```xml
   <dependency>
     <groupId>org.keyboardplaying</groupId>
@@ -53,6 +54,7 @@ This project is _not_ available on any Maven repository. You must therefore:
     <version>1.0.0</version>
   </dependency>
   ```
+
 ### Comparing and logging
 
 #### Preparing variants
