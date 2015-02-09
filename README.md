@@ -2,7 +2,7 @@
 
 [![Build Status][1]][2]
 [![Coverage Status][3]][4]
-![License][5]
+[![License][5]][6]
 
 This project provides an easy way to compare the performances of several implementations of a
 method.
@@ -110,3 +110,4 @@ Below is an example:
 [3]: http://img.shields.io/coveralls/cyChop/java-implementation-comparer/master.svg
 [4]: https://coveralls.io/r/cyChop/java-implementation-comparer?branch=master
 [5]: https://img.shields.io/badge/license-LGPLv3-blue.svg
+[6]: https://www.gnu.org/licenses/lgpl.html
