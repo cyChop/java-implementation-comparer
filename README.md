@@ -6,7 +6,18 @@
 This project provides an easy way to compare the performances of several implementations of a
 method.
 
-## What will I get from it?
+## History
+
+Once you understand how the JVM works, you usually can tell which way of programming will be the
+most efficient. Sometimes, you just want to tinker, though, and find out by the experience.
+
+In those cases, though not really hard, it is quite a pain to have to implement the comparison
+solution, especially when the method is tightly related to its object, so I wrote some code I could
+easily reuse to compare several implementations of a method.
+
+And now I am sharing it.
+
+## What you will get from it
 
 When using the comparison algorithm and logger, you will obtain this kind of output:
 
@@ -29,7 +40,7 @@ The columns are the following:
   * ``REF``: for the reference (first) result, either if results both point to the same sector or both are ``void`` or ``null``;
   * ``== REF``: for a result equal to the reference result (using the ``.equals(Object)`` method);
   * ``!= REF``: for a result not equal to the reference result (using the ``.equals(Object)`` method).
-  
+
 ## How to use?
 
 ### Create a test project
