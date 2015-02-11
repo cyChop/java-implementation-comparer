@@ -109,5 +109,5 @@ Below is an example:
 [2]: https://travis-ci.org/cyChop/java-implementation-comparer
 [3]: http://img.shields.io/coveralls/cyChop/java-implementation-comparer/master.svg
 [4]: https://coveralls.io/r/cyChop/java-implementation-comparer?branch=master
-[5]: https://img.shields.io/badge/license-LGPLv3-blue.svg
+[5]: https://img.shields.io/badge/license-LGPL%203.0-blue.svg
 [6]: https://www.gnu.org/licenses/lgpl.html
