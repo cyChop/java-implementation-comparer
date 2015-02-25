@@ -67,7 +67,7 @@
     <!-- Ascii art - log as tables -->
     <dependency>
       <groupId>org.alcibiade</groupId>
-      <artifactId>asciiart-slf4j</artifactId>
+      <artifactId>asciiart-core</artifactId>
       <version>${asciiart.version}</version>
     </dependency>
 
@@ -140,6 +140,10 @@
     <system>GitHub</system>
     <url>https://github.com/${github.user}/${github.repo}/issues</url>
   </issueManagement>
+  <organization>
+    <name>Keyboard Playing</name>
+    <url>http://keyboardplaying.org</url>
+  </organization>
   <developers>
     <developer>
       <id>cyChop</id>

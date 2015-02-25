@@ -17,8 +17,11 @@ package org.keyboardplaying.comparer.core;
 import java.util.List;
 import java.util.Objects;
 
-import org.alcibiade.asciiart.slf4j.AsciiArtLogger;
+import org.alcibiade.asciiart.raster.CharacterRaster;
+import org.alcibiade.asciiart.raster.ExtensibleCharacterRaster;
+import org.alcibiade.asciiart.raster.RasterContext;
 import org.alcibiade.asciiart.widget.TableWidget;
+import org.alcibiade.asciiart.widget.TextPanel;
 import org.alcibiade.asciiart.widget.model.AbstractTableModel;
 import org.keyboardplaying.comparer.model.ImplCheckResult;
 import org.slf4j.Logger;
@@ -64,8 +67,18 @@ public final class ImplComparisonLogger {
      *            the {@link Logger} to log to
      */
     public void log(List<ImplCheckResult> results, Logger logger) {
-        TableWidget tableWidget = new TableWidget(new ImplComparisonTable(results));
-        new AsciiArtLogger(logger).info(tableWidget);
+        TableWidget widget = new TableWidget(new ImplComparisonTable(results));
+        if (logger.isInfoEnabled()) {
+            TextPanel textPanel = new TextPanel();
+            textPanel.add(widget);
+
+            CharacterRaster raster = new ExtensibleCharacterRaster(' ');
+            textPanel.render(new RasterContext(raster));
+
+            for (String line : raster) {
+                logger.info(line);
+            }
+        }
     }
 
     /**
