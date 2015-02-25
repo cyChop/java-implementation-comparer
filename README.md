@@ -40,7 +40,14 @@ The columns are the following:
 3. **Result**: a comparison of results:
   * ``REF``: for the reference (first) result, either if results both point to the same sector or both are ``void`` or ``null``;
   * ``== REF``: for a result equal to the reference result (using the ``.equals(Object)`` method);
+
   * ``!= REF``: for a result not equal to the reference result (using the ``.equals(Object)`` method).
+## Warning
+
+> **This project is a generalisation of a utility I wrote for myself. It is not mature yet and I
+have detected some discrepancies. I intend to make it better, but it is under a heap of other
+projects at the moment.**
+> **Use therefore at your own risk. Any feedback welcome.**
 
 ## How to use?
 
