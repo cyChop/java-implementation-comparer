@@ -116,8 +116,7 @@ public final class ImplComparer {
      *             underlying method is inaccessible.
      */
     public List<ImplCheckResult> compare(Object target, String methodName, Class<?>[] erasure,
-            Object[] parameters) throws NoSuchMethodException, IllegalAccessException,
-            IllegalArgumentException {
+            Object[] parameters) throws NoSuchMethodException, IllegalAccessException {
         return compare(target, target.getClass(), methodName, erasure, parameters);
     }
 
@@ -199,7 +198,7 @@ public final class ImplComparer {
      */
     private List<ImplCheckResult> compare(Object target, Class<?> klass, String methodName,
             Class<?>[] erasure, Object[] parameters) throws NoSuchMethodException,
-            IllegalAccessException, IllegalArgumentException {
+            IllegalAccessException {
         log.info(
                 "Beginning performance comparison for method <{}>, ({} check(s), {} iteration(s) per check",
                 methodName, checks, iterations);
@@ -208,6 +207,7 @@ public final class ImplComparer {
         Object[] prms = parameters == null ? new Object[0] : parameters;
         log.debug("{} variants found (including original).", methods.size());
         List<ImplCheckResult> results = initCheckResultList(methods, target, prms);
+        performBlanks(results, target, prms, iterations);
         for (int c = 0; c < checks; c++) {
             log.debug("Beginning time check #{}", c);
             performTimeChecks(results, target, prms, iterations);
@@ -285,7 +285,7 @@ public final class ImplComparer {
      *             underlying method is inaccessible.
      */
     private List<ImplCheckResult> initCheckResultList(List<Method> methods, Object target,
-            Object[] parameters) throws IllegalAccessException, IllegalArgumentException {
+            Object[] parameters) throws IllegalAccessException {
         List<ImplCheckResult> results = new ArrayList<ImplCheckResult>();
         for (Method method : methods) {
             results.add(new ImplCheckResult(method, invokeMethod(target, method, parameters)));
@@ -314,9 +314,41 @@ public final class ImplComparer {
      *             if this {@code Method} object is enforcing Java language access control and the
      *             underlying method is inaccessible.
      */
+    private void performBlanks(List<ImplCheckResult> results, Object target, Object[] parameters,
+            int iterations) throws IllegalAccessException {
+        for (ImplCheckResult result : results) {
+            Method method = result.getMethod();
+            log.debug("Performing blank test for <{}>", method.getName());
+
+            for (int i = 0; i < iterations; i++) {
+                invokeMethod(target, method, parameters);
+            }
+        }
+    }
+
+    /**
+     * Perform a time check for each {@link ImplCheckResult} supplied in parameters.
+     *
+     * @param results
+     *            the {@link ImplCheckResult} instances to enrich with performance information
+     * @param target
+     *            the instance to call the method on; {@code null} tolerated for static methods
+     * @param parameters
+     *            the parameters to use when calling the method; {@code null} tolerated in case of a
+     *            no-arg method
+     * @throws IllegalArgumentException
+     *             if the method is an instance method and the specified object argument is not an
+     *             instance of the class or interface declaring the underlying method (or of a
+     *             subclass or implementor thereof); if the number of actual and formal parameters
+     *             differ; if an unwrapping conversion for primitive arguments fails; or if, after
+     *             possible unwrapping, a parameter value cannot be converted to the corresponding
+     *             formal parameter type by a method invocation conversion.
+     * @throws IllegalAccessException
+     *             if this {@code Method} object is enforcing Java language access control and the
+     *             underlying method is inaccessible.
+     */
     private void performTimeChecks(List<ImplCheckResult> results, Object target,
-            Object[] parameters, int iterations) throws IllegalAccessException,
-            IllegalArgumentException {
+            Object[] parameters, int iterations) throws IllegalAccessException {
         for (ImplCheckResult result : results) {
             Method method = result.getMethod();
             log.debug("Beginning new time check for <{}>", method.getName());
@@ -358,7 +390,7 @@ public final class ImplComparer {
      *             underlying method is inaccessible.
      */
     private Object invokeMethod(Object target, Method method, Object[] parameters)
-            throws IllegalAccessException, IllegalArgumentException {
+            throws IllegalAccessException {
         Object result;
         try {
             result = method.invoke(target, parameters);
