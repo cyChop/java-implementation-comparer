@@ -37,7 +37,7 @@
     <asciiart.version>1.0.0</asciiart.version>
     <!-- Version management - test -->
     <junit.version>4.12</junit.version>
-    <mockito.version>1.10.19</mockito.version>
+    <mockito.version>2.0.13-beta</mockito.version>
     <!-- Version management - coverage -->
     <cobertura.plugin.version>2.7</cobertura.plugin.version>
     <coveralls.plugin.version>3.1.0</coveralls.plugin.version>
