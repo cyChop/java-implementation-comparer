@@ -46,29 +46,29 @@ import org.slf4j.LoggerFactory;
  */
 public final class ImplComparisonLogger {
 
-    private static Logger log = LoggerFactory.getLogger(ImplComparisonLogger.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ImplComparisonLogger.class);
 
     /**
      * Logs the results as a table.
      *
      * @param results
-     *            the results to log
+     *            the results to LOG
      */
     public void log(List<ImplCheckResult> results) {
-        log(results, log);
+        log(results, LOG);
     }
 
     /**
      * Logs the results as a table.
      *
      * @param results
-     *            the results to log
-     * @param logger
-     *            the {@link Logger} to log to
+     *            the results to LOG
+     * @param log
+     *            the {@link Logger} to LOG to
      */
-    public void log(List<ImplCheckResult> results, Logger logger) {
+    public void log(List<ImplCheckResult> results, Logger log) {
         TableWidget widget = new TableWidget(new ImplComparisonTable(results));
-        if (logger.isInfoEnabled()) {
+        if (log.isInfoEnabled()) {
             TextPanel textPanel = new TextPanel();
             textPanel.add(widget);
 
@@ -76,7 +76,7 @@ public final class ImplComparisonLogger {
             textPanel.render(new RasterContext(raster));
 
             for (String line : raster) {
-                logger.info(line);
+                log.info(line);
             }
         }
     }

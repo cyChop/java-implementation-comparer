@@ -38,7 +38,7 @@ public final class ImplComparer {
     /** The default number of iterations per time check. */
     private static final int DEFAULT_ITERATIONS = 10000;
 
-    private static Logger log = LoggerFactory.getLogger(ImplComparer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ImplComparer.class);
 
     private int checks = DEFAULT_CHECKS;
     private int iterations = DEFAULT_ITERATIONS;
@@ -149,7 +149,7 @@ public final class ImplComparer {
      *             inaccessible.
      */
     public List<ImplCheckResult> compareStatic(Class<?> klass, String methodName, Class<?>[] erasure,
-            Object[] parameters) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException {
+            Object[] parameters) throws NoSuchMethodException, IllegalAccessException {
         return compare(null, klass, methodName, erasure, parameters);
     }
 
@@ -188,16 +188,16 @@ public final class ImplComparer {
      */
     private List<ImplCheckResult> compare(Object target, Class<?> klass, String methodName, Class<?>[] erasure,
             Object[] parameters) throws NoSuchMethodException, IllegalAccessException {
-        log.info("Beginning performance comparison for method <{}>, ({} check(s), {} iteration(s) per check",
+        LOG.info("Beginning performance comparison for method <{}>, ({} check(s), {} iteration(s) per check",
                 methodName, checks, iterations);
         List<Method> methods = loadMethods(klass, methodName, erasure);
 
         Object[] prms = parameters == null ? new Object[0] : parameters;
-        log.debug("{} variants found (including original).", methods.size());
+        LOG.debug("{} variants found (including original).", methods.size());
         List<ImplCheckResult> results = initCheckResultList(methods, target, prms);
         performBlanks(results, target, prms, iterations);
         for (int c = 0; c < checks; c++) {
-            log.debug("Beginning time check #{}", c);
+            LOG.debug("Beginning time check #{}", c);
             performTimeChecks(results, target, prms, iterations);
         }
         return results;
@@ -299,7 +299,7 @@ public final class ImplComparer {
             throws IllegalAccessException {
         for (ImplCheckResult result : results) {
             Method method = result.getMethod();
-            log.debug("Performing blank test for <{}>", method.getName());
+            LOG.debug("Performing blank test for <{}>", method.getName());
 
             for (int i = 0; i < runs; i++) {
                 invokeMethod(target, method, parameters);
@@ -330,7 +330,7 @@ public final class ImplComparer {
             throws IllegalAccessException {
         for (ImplCheckResult result : results) {
             Method method = result.getMethod();
-            log.debug("Beginning new time check for <{}>", method.getName());
+            LOG.debug("Beginning new time check for <{}>", method.getName());
 
             long startTime = System.nanoTime();
             for (int i = 0; i < runs; i++) {
@@ -338,7 +338,7 @@ public final class ImplComparer {
             }
             long executionTime = (System.nanoTime() - startTime) / 1000;
             result.addExecutionTime(executionTime, runs);
-            log.debug("Time check for {} done (iterations: {}; total time: {} ms)", method.getName(), executionTime,
+            LOG.debug("Time check for {} done (iterations: {}; total time: {} ms)", method.getName(), executionTime,
                     runs);
         }
     }
