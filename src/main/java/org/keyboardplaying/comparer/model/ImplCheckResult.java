@@ -42,8 +42,7 @@ public class ImplCheckResult {
     }
 
     /**
-     * Adds the execution time for one execution to this result and increments the number of
-     * executions.
+     * Adds the execution time for one execution to this result and increments the number of executions.
      *
      * @param executionTime
      *            the execution time
@@ -53,8 +52,8 @@ public class ImplCheckResult {
     }
 
     /**
-     * Adds the execution time for the a supplied number of executions and increments the number of
-     * executions accordingly.
+     * Adds the execution time for the a supplied number of executions and increments the number of executions
+     * accordingly.
      *
      * @param executionTime
      *            the execution time

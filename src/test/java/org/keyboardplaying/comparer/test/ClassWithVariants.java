@@ -82,7 +82,7 @@ public class ClassWithVariants {
     }
 
     /**
-     * Simple method to emulate a less performant variant.
+     * Simple method to emulate a less efficient variant.
      *
      * @return {@code "Hello, World!"}
      */
@@ -92,18 +92,28 @@ public class ClassWithVariants {
 
     /** Test for a method with void return. */
     public void returnNothing() {
+        // empty method
     }
 
     /** Test for a method with void return. */
     public void returnNothing1() {
+        // empty method
     }
 
-    /** Test for a method with null return. */
+    /**
+     * Test for a method with null return.
+     *
+     * @return {@code null}
+     */
     public String returnNull() {
         return null;
     }
 
-    /** Test for a method with null return. */
+    /**
+     * Test for a method with null return.
+     *
+     * @return {@code null}
+     */
     public String returnNull1() {
         return null;
     }

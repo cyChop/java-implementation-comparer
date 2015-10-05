@@ -78,13 +78,10 @@ public class ImplComparisonLoggerTest {
     public void testLog() throws NoSuchMethodException {
 
         /* Build sample data */
-        List<ImplCheckResult> results = new ArrayList<ImplCheckResult>();
-        results.add(new ImplCheckResult(ClassWithVariants.class.getMethod("hello"),
-                ClassWithVariants.hello()));
-        results.add(new ImplCheckResult(ClassWithVariants.class.getMethod("hello1"),
-                ClassWithVariants.hello1()));
-        results.add(new ImplCheckResult(ClassWithVariants.class.getMethod("hello2"),
-                ClassWithVariants.hello2()));
+        List<ImplCheckResult> results = new ArrayList<>();
+        results.add(new ImplCheckResult(ClassWithVariants.class.getMethod("hello"), ClassWithVariants.hello()));
+        results.add(new ImplCheckResult(ClassWithVariants.class.getMethod("hello1"), ClassWithVariants.hello1()));
+        results.add(new ImplCheckResult(ClassWithVariants.class.getMethod("hello2"), ClassWithVariants.hello2()));
         for (ImplCheckResult result : results) {
             result.addExecutionTime(1337, 42);
         }
@@ -93,14 +90,11 @@ public class ImplComparisonLoggerTest {
         // Make sure the test is JVM-proof
         String execTime = String.valueOf(1337.0 / 42.0);
         int length = execTime.length();
-        String separator = "+--------+-" + new String(new char[length]).replace("\0", "-")
-                + "-+--------+";
-        String[] expectedLog = {
-                separator,
-                "| Method | Avg time (ms)" + new String(new char[length - 13]).replace("\0", " ")
-                        + " | Result |", separator, "| hello  | " + execTime + " |    REF |",
-                "| hello1 | " + execTime + " | != REF |", "| hello2 | " + execTime + " | == REF |",
-                separator };
+        String separator = "+--------+-" + new String(new char[length]).replace("\0", "-") + "-+--------+";
+        String[] expectedLog = { separator,
+                "| Method | Avg time (ms)" + new String(new char[length - 13]).replace("\0", " ") + " | Result |",
+                separator, "| hello  | " + execTime + " |    REF |", "| hello1 | " + execTime + " | != REF |",
+                "| hello2 | " + execTime + " | == REF |", separator };
 
         /* Execute the code to test. */
         ImplComparisonLogger logger = new ImplComparisonLogger();

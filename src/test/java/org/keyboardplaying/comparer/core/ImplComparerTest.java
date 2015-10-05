@@ -32,9 +32,7 @@ import org.keyboardplaying.comparer.test.ClassWithVariants;
  */
 public class ImplComparerTest {
 
-    /**
-     * Tests the configuration of the comparer.
-     */
+    /** Tests the configuration of the comparer. */
     @Test
     public void testConfiguration() {
         ImplComparer comparer = new ImplComparer();
@@ -55,10 +53,9 @@ public class ImplComparerTest {
      *             never
      */
     @Test(expected = NoSuchMethodException.class)
-    public void testNoSuchMethod() throws NoSuchMethodException, IllegalAccessException,
-            IllegalArgumentException {
-        new ImplComparer().compare(new ClassWithVariants(), "notHere",
-                new Class<?>[] { String.class }, new Object[] { "A String param" });
+    public void testNoSuchMethod() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException {
+        new ImplComparer().compare(new ClassWithVariants(), "notHere", new Class<?>[] { String.class },
+                new Object[] { "A String param" });
     }
 
     /**
@@ -72,10 +69,9 @@ public class ImplComparerTest {
      *             never
      */
     @Test(expected = NoSuchMethodException.class)
-    public void testNoSuchMethodStatic() throws NoSuchMethodException, IllegalAccessException,
-            IllegalArgumentException {
-        new ImplComparer().compareStatic(ClassWithVariants.class, "notHere", new Class<?>[] {},
-                new Object[] {});
+    public void testNoSuchMethodStatic()
+            throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException {
+        new ImplComparer().compareStatic(ClassWithVariants.class, "notHere", new Class<?>[] {}, new Object[] {});
     }
 
     /**
@@ -89,15 +85,14 @@ public class ImplComparerTest {
      *             never
      */
     @Test
-    public void testCompare() throws NoSuchMethodException, IllegalAccessException,
-            IllegalArgumentException {
+    public void testCompare() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException {
         ImplComparer comparer = new ImplComparer();
 
         String prm = "A String param";
 
         ClassWithVariants target = new ClassWithVariants();
-        List<ImplCheckResult> comparison = comparer.compare(target, "string",
-                new Class<?>[] { String.class }, new Object[] { prm });
+        List<ImplCheckResult> comparison = comparer.compare(target, "string", new Class<?>[] { String.class },
+                new Object[] { prm });
 
         assertEquals("Incorrect number of variants", 3, comparison.size());
         for (ImplCheckResult result : comparison) {
@@ -112,8 +107,7 @@ public class ImplComparerTest {
         assertEquals("string", string.getMethod().getName());
         assertEquals("string2", string2.getMethod().getName());
         // Do test
-        assertTrue("Unexpected performances",
-                string2.getAverageExecutionTime() < string.getAverageExecutionTime());
+        assertTrue("Unexpected performances", string2.getAverageExecutionTime() < string.getAverageExecutionTime());
     }
 
     /**
@@ -127,14 +121,13 @@ public class ImplComparerTest {
      *             never
      */
     @Test
-    public void testCompareStatic() throws NoSuchMethodException, IllegalAccessException,
-            IllegalArgumentException {
+    public void testCompareStatic() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException {
         ImplComparer comparer = new ImplComparer();
         comparer.setChecks(5);
         comparer.setIterations(1000);
 
-        List<ImplCheckResult> comparison = comparer.compareStatic(ClassWithVariants.class, "hello",
-                new Class<?>[] {}, new Object[] {});
+        List<ImplCheckResult> comparison = comparer.compareStatic(ClassWithVariants.class, "hello", new Class<?>[] {},
+                new Object[] {});
 
         assertEquals("Incorrect number of variants", 3, comparison.size());
 
@@ -151,8 +144,7 @@ public class ImplComparerTest {
         assertEquals("Hello, World!", hello.getMethodResult());
         assertNotEquals("Hello, World!", hello1.getMethodResult());
         assertEquals("Hello, World!", hello2.getMethodResult());
-        assertTrue("Unexpected performances",
-                hello.getAverageExecutionTime() < hello2.getAverageExecutionTime());
+        assertTrue("Unexpected performances", hello.getAverageExecutionTime() < hello2.getAverageExecutionTime());
     }
 
     /**
@@ -166,14 +158,14 @@ public class ImplComparerTest {
      *             never
      */
     @Test
-    public void testCompareWithVoidReturn() throws NoSuchMethodException, IllegalAccessException,
-            IllegalArgumentException {
+    public void testCompareWithVoidReturn()
+            throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException {
         ImplComparer comparer = new ImplComparer();
         comparer.setChecks(5);
         comparer.setIterations(1000);
 
-        List<ImplCheckResult> comparison = comparer.compare(new ClassWithVariants(),
-                "returnNothing", new Class<?>[] {}, new Object[] {});
+        List<ImplCheckResult> comparison = comparer.compare(new ClassWithVariants(), "returnNothing", new Class<?>[] {},
+                new Object[] {});
 
         assertEquals("Incorrect number of variants", 2, comparison.size());
 
@@ -200,14 +192,14 @@ public class ImplComparerTest {
      *             never
      */
     @Test
-    public void testCompareWithNullReturn() throws NoSuchMethodException, IllegalAccessException,
-            IllegalArgumentException {
+    public void testCompareWithNullReturn()
+            throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException {
         ImplComparer comparer = new ImplComparer();
         comparer.setChecks(5);
         comparer.setIterations(1000);
 
-        List<ImplCheckResult> comparison = comparer.compare(new ClassWithVariants(), "returnNull",
-                new Class<?>[] {}, new Object[] {});
+        List<ImplCheckResult> comparison = comparer.compare(new ClassWithVariants(), "returnNull", new Class<?>[] {},
+                new Object[] {});
 
         assertEquals("Incorrect number of variants", 2, comparison.size());
 
@@ -234,8 +226,7 @@ public class ImplComparerTest {
      *             never
      */
     @Test
-    public void testNullForNoArg() throws NoSuchMethodException, IllegalAccessException,
-            IllegalArgumentException {
+    public void testNullForNoArg() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException {
         ImplComparer comparer = new ImplComparer();
         comparer.setChecks(1);
         comparer.setIterations(10);
@@ -255,10 +246,9 @@ public class ImplComparerTest {
      *             never
      */
     @Test
-    public void testExceptionalMethod() throws NoSuchMethodException, IllegalAccessException,
-            IllegalArgumentException {
-        List<ImplCheckResult> comparison = new ImplComparer().compare(new ClassWithVariants(),
-                "throwException", null, null);
+    public void testExceptionalMethod() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException {
+        List<ImplCheckResult> comparison = new ImplComparer().compare(new ClassWithVariants(), "throwException", null,
+                null);
         assertEquals(1, comparison.size());
         Object e = comparison.get(0).getMethodResult();
         assertTrue(e instanceof RuntimeException);

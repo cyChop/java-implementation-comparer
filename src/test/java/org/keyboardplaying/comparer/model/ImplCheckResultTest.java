@@ -40,6 +40,7 @@ public class ImplCheckResultTest {
     public void testCheckResult() throws NoSuchMethodException {
         // quick and dirty way to have a method
         Method method = new Object() {
+            // really dirty
         }.getClass().getEnclosingMethod();
         Object result = "A random result";
 

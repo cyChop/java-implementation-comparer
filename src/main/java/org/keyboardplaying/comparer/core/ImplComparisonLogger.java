@@ -39,8 +39,8 @@ import org.slf4j.LoggerFactory;
  * <p/>
  * The logging is made with the INFO level.
  * <p/>
- * The logging is based on logback and SLF4J. Default logging is to the console, but you can change
- * the logging channel with a logback configuration file or supplying your own SLF4J {@link Logger}.
+ * The logging is based on logback and SLF4J. Default logging is to the console, but you can change the logging channel
+ * with a logback configuration file or supplying your own SLF4J {@link Logger}.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
@@ -126,8 +126,7 @@ public final class ImplComparisonLogger {
                     if (referenceResult == result.getMethodResult()) {
                         content = "   " + NAME_REF;
                     } else {
-                        content = (Objects.equals(referenceResult, result.getMethodResult()) ? "== "
-                                : "!= ")
+                        content = (Objects.equals(referenceResult, result.getMethodResult()) ? "== " : "!= ")
                                 + NAME_REF;
                     }
                 } else {
