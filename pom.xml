@@ -11,7 +11,7 @@
     <description>
         A utility to compare performances on several implementation of a Java method.
     </description>
-    <url>${project.srm.url}</url>
+    <url>${project.scm.url}</url>
 
     <licenses>
         <license>
