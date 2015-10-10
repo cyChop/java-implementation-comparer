@@ -19,6 +19,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.keyboardplaying.comparer.model.ComparisonException;
 import org.keyboardplaying.comparer.model.ImplCheckResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +54,7 @@ public final class ImplComparer {
     }
 
     /**
-     * Sets the number of checks per comparison (default: {@value #DEFAULT_CHECKS}).
+     * Sets the number of checks per comparison (default: 3).
      *
      * @param checks
      *            the number of checks
@@ -63,7 +64,7 @@ public final class ImplComparer {
     }
 
     /**
-     * Returns the number of iterations per check (default: {@value #DEFAULT_ITERATIONS}).
+     * Returns the number of iterations per check (default: 10000).
      *
      * @return the number of iterations per check
      */
@@ -100,21 +101,16 @@ public final class ImplComparer {
      * @param parameters
      *            the parameters to use for comparison; {@code null} tolerated in case of a no-arg method
      * @return a list of performance check result
-     * @throws NoSuchMethodException
-     *             if the requested original method does not exist
-     * @throws IllegalArgumentException
-     *             if the method is an instance method and the specified object argument is not an instance of the class
-     *             or interface declaring the underlying method (or of a subclass or implementor thereof); if the number
-     *             of actual and formal parameters differ; if an unwrapping conversion for primitive arguments fails; or
-     *             if, after possible unwrapping, a parameter value cannot be converted to the corresponding formal
-     *             parameter type by a method invocation conversion.
-     * @throws IllegalAccessException
-     *             if this {@code Method} object is enforcing Java language access control and the underlying method is
-     *             inaccessible.
+     * @throws ComparisonException
+     *             if the comparison fails
      */
     public List<ImplCheckResult> compare(Object target, String methodName, Class<?>[] erasure, Object[] parameters)
-            throws NoSuchMethodException, IllegalAccessException {
-        return compare(target, target.getClass(), methodName, erasure, parameters);
+            throws ComparisonException {
+        try {
+            return compare(target, target.getClass(), methodName, erasure, parameters);
+        } catch (NoSuchMethodException | IllegalAccessException e) {
+            throw new ComparisonException(e.getMessage(), e);
+        }
     }
 
     /**
@@ -136,21 +132,16 @@ public final class ImplComparer {
      * @param parameters
      *            the parameters to use for comparison; {@code null} tolerated in case of a no-arg method
      * @return a list of performance check result
-     * @throws NoSuchMethodException
-     *             if the requested original method does not exist
-     * @throws IllegalArgumentException
-     *             if the method is an instance method and the specified object argument is not an instance of the class
-     *             or interface declaring the underlying method (or of a subclass or implementor thereof); if the number
-     *             of actual and formal parameters differ; if an unwrapping conversion for primitive arguments fails; or
-     *             if, after possible unwrapping, a parameter value cannot be converted to the corresponding formal
-     *             parameter type by a method invocation conversion.
-     * @throws IllegalAccessException
-     *             if this {@code Method} object is enforcing Java language access control and the underlying method is
-     *             inaccessible.
+     * @throws ComparisonException
+     *             if the comparison fails
      */
     public List<ImplCheckResult> compareStatic(Class<?> klass, String methodName, Class<?>[] erasure,
-            Object[] parameters) throws NoSuchMethodException, IllegalAccessException {
-        return compare(null, klass, methodName, erasure, parameters);
+            Object[] parameters) throws ComparisonException {
+        try {
+            return compare(null, klass, methodName, erasure, parameters);
+        } catch (NoSuchMethodException | IllegalAccessException e) {
+            throw new ComparisonException(e.getMessage(), e);
+        }
     }
 
     /**

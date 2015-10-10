@@ -18,10 +18,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
 import org.junit.Test;
+import org.keyboardplaying.comparer.model.ComparisonException;
 import org.keyboardplaying.comparer.model.ImplCheckResult;
 import org.keyboardplaying.comparer.test.ClassWithVariants;
 
@@ -42,50 +44,37 @@ public class ImplComparerTest {
         assertEquals(1337, comparer.getIterations());
     }
 
-    /**
-     * Tests the calling of the comparison for a method which does not exist.
-     *
-     * @throws NoSuchMethodException
-     *             always
-     * @throws IllegalArgumentException
-     *             never
-     * @throws IllegalAccessException
-     *             never
-     */
-    @Test(expected = NoSuchMethodException.class)
-    public void testNoSuchMethod() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException {
-        new ImplComparer().compare(new ClassWithVariants(), "notHere", new Class<?>[] { String.class },
-                new Object[] { "A String param" });
+    /** Tests the calling of the comparison for a method which does not exist. */
+    @Test
+    public void testNoSuchMethod() {
+        try {
+            new ImplComparer().compare(new ClassWithVariants(), "notHere", new Class<?>[] { String.class },
+                    new Object[] { "A String param" });
+            fail("An exception with NoSuchMethodException as cause should have been thrown.");
+        } catch (ComparisonException e) {
+            assertTrue(e.getCause() instanceof NoSuchMethodException);
+        }
     }
 
-    /**
-     * Tests the calling of the comparison for a static method which does not exist.
-     *
-     * @throws NoSuchMethodException
-     *             always
-     * @throws IllegalArgumentException
-     *             never
-     * @throws IllegalAccessException
-     *             never
-     */
-    @Test(expected = NoSuchMethodException.class)
-    public void testNoSuchMethodStatic()
-            throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException {
-        new ImplComparer().compareStatic(ClassWithVariants.class, "notHere", new Class<?>[] {}, new Object[] {});
+    /** Tests the calling of the comparison for a static method which does not exist. */
+    @Test
+    public void testNoSuchMethodStatic() {
+        try {
+            new ImplComparer().compareStatic(ClassWithVariants.class, "notHere", new Class<?>[] {}, new Object[] {});
+            fail("An exception with NoSuchMethodException as cause should have been thrown.");
+        } catch (ComparisonException e) {
+            assertTrue(e.getCause() instanceof NoSuchMethodException);
+        }
     }
 
     /**
      * Tests the comparison of non-static methods.
      *
-     * @throws NoSuchMethodException
-     *             never
-     * @throws IllegalArgumentException
-     *             never
-     * @throws IllegalAccessException
+     * @throws ComparisonException
      *             never
      */
     @Test
-    public void testCompare() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException {
+    public void testCompare() throws ComparisonException {
         ImplComparer comparer = new ImplComparer();
 
         String prm = "A String param";
@@ -113,15 +102,11 @@ public class ImplComparerTest {
     /**
      * Tests the comparison of static methods.
      *
-     * @throws NoSuchMethodException
-     *             never
-     * @throws IllegalArgumentException
-     *             never
-     * @throws IllegalAccessException
+     * @throws ComparisonException
      *             never
      */
     @Test
-    public void testCompareStatic() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException {
+    public void testCompareStatic() throws ComparisonException {
         ImplComparer comparer = new ImplComparer();
         comparer.setChecks(5);
         comparer.setIterations(1000);
@@ -150,16 +135,11 @@ public class ImplComparerTest {
     /**
      * Tests the comparison of methods with void returns.
      *
-     * @throws NoSuchMethodException
-     *             never
-     * @throws IllegalArgumentException
-     *             never
-     * @throws IllegalAccessException
+     * @throws ComparisonException
      *             never
      */
     @Test
-    public void testCompareWithVoidReturn()
-            throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException {
+    public void testCompareWithVoidReturn() throws ComparisonException {
         ImplComparer comparer = new ImplComparer();
         comparer.setChecks(5);
         comparer.setIterations(1000);
@@ -184,16 +164,11 @@ public class ImplComparerTest {
     /**
      * Tests the comparison of methods with null returns.
      *
-     * @throws NoSuchMethodException
-     *             never
-     * @throws IllegalArgumentException
-     *             never
-     * @throws IllegalAccessException
+     * @throws ComparisonException
      *             never
      */
     @Test
-    public void testCompareWithNullReturn()
-            throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException {
+    public void testCompareWithNullReturn() throws ComparisonException {
         ImplComparer comparer = new ImplComparer();
         comparer.setChecks(5);
         comparer.setIterations(1000);
@@ -218,15 +193,11 @@ public class ImplComparerTest {
     /**
      * Tests the passing of null as erasure and parameters for no-argument methods.
      *
-     * @throws NoSuchMethodException
-     *             never
-     * @throws IllegalArgumentException
-     *             never
-     * @throws IllegalAccessException
+     * @throws ComparisonException
      *             never
      */
     @Test
-    public void testNullForNoArg() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException {
+    public void testNullForNoArg() throws ComparisonException {
         ImplComparer comparer = new ImplComparer();
         comparer.setChecks(1);
         comparer.setIterations(10);
@@ -236,17 +207,13 @@ public class ImplComparerTest {
     }
 
     /**
-     * Tests the behaviour for methods throwing an exception.
+     * Tests the behavior for methods throwing an exception.
      *
-     * @throws NoSuchMethodException
-     *             never
-     * @throws IllegalArgumentException
-     *             never
-     * @throws IllegalAccessException
+     * @throws ComparisonException
      *             never
      */
     @Test
-    public void testExceptionalMethod() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException {
+    public void testExceptionalMethod() throws ComparisonException {
         List<ImplCheckResult> comparison = new ImplComparer().compare(new ClassWithVariants(), "throwException", null,
                 null);
         assertEquals(1, comparison.size());

@@ -55,20 +55,8 @@ public final class ImplComparisonLogger {
      *            the results to LOG
      */
     public void log(List<ImplCheckResult> results) {
-        log(results, LOG);
-    }
-
-    /**
-     * Logs the results as a table.
-     *
-     * @param results
-     *            the results to LOG
-     * @param log
-     *            the {@link Logger} to LOG to
-     */
-    public void log(List<ImplCheckResult> results, Logger log) {
         TableWidget widget = new TableWidget(new ImplComparisonTable(results));
-        if (log.isInfoEnabled()) {
+        if (LOG.isInfoEnabled()) {
             TextPanel textPanel = new TextPanel();
             textPanel.add(widget);
 
@@ -76,7 +64,7 @@ public final class ImplComparisonLogger {
             textPanel.render(new RasterContext(raster));
 
             for (String line : raster) {
-                log.info(line);
+                LOG.info(line);
             }
         }
     }
@@ -88,55 +76,8 @@ public final class ImplComparisonLogger {
      */
     private static class ImplComparisonTable extends AbstractTableModel {
 
-        private static final String NAME_REF = "REF";
-
-        private Object referenceResult;
-        private boolean referenceSet = false;
-
-        private final ImplComparisonColumn[] columns = { new ImplComparisonColumn() {
-            @Override
-            public String getTitle() {
-                return "Method";
-            }
-
-            @Override
-            public String getValue(ImplCheckResult result) {
-                return result.getMethod().getName();
-            }
-        }, new ImplComparisonColumn() {
-            @Override
-            public String getTitle() {
-                return "Avg time (ms)";
-            }
-
-            @Override
-            public String getValue(ImplCheckResult result) {
-                return String.valueOf(result.getAverageExecutionTime());
-            }
-        }, new ImplComparisonColumn() {
-            @Override
-            public String getTitle() {
-                return "Result";
-            }
-
-            @Override
-            public String getValue(ImplCheckResult result) {
-                String content;
-                if (referenceSet) {
-                    if (referenceResult == result.getMethodResult()) {
-                        content = "   " + NAME_REF;
-                    } else {
-                        content = (Objects.equals(referenceResult, result.getMethodResult()) ? "== " : "!= ")
-                                + NAME_REF;
-                    }
-                } else {
-                    referenceResult = result.getMethodResult();
-                    referenceSet = true;
-                    content = "   " + NAME_REF;
-                }
-                return content;
-            }
-        } };
+        private final ImplComparisonColumn[] columns = { new MethodComparisonColumn(), new AvgTimeComparisonColumn(),
+                new ResultComparisonColumn() };
 
         private List<ImplCheckResult> results;
 
@@ -187,5 +128,121 @@ public final class ImplComparisonLogger {
          * @return the formatted value
          */
         String getValue(ImplCheckResult result);
+    }
+
+    /**
+     * A column to display the method the row corresponds to.
+     *
+     * @author Cyrille Chopelet (http://keyboardplaying.org)
+     */
+    private static class MethodComparisonColumn implements ImplComparisonColumn {
+
+        /*
+         * (non-Javadoc)
+         *
+         * @see org.keyboardplaying.comparer.core.ImplComparisonLogger.ImplComparisonColumn#getTitle()
+         */
+        @Override
+        public String getTitle() {
+            return "Method";
+        }
+
+        /*
+         * (non-Javadoc)
+         *
+         * @see
+         * org.keyboardplaying.comparer.core.ImplComparisonLogger.ImplComparisonColumn#getValue(org.keyboardplaying.
+         * comparer.model.ImplCheckResult)
+         */
+        @Override
+        public String getValue(ImplCheckResult result) {
+            return result.getMethod().getName();
+        }
+    }
+
+    /**
+     * A column to display the average execution time for a method.
+     *
+     * @author Cyrille Chopelet (http://keyboardplaying.org)
+     */
+    private static class AvgTimeComparisonColumn implements ImplComparisonColumn {
+
+        /*
+         * (non-Javadoc)
+         *
+         * @see org.keyboardplaying.comparer.core.ImplComparisonLogger.ImplComparisonColumn#getTitle()
+         */
+        @Override
+        public String getTitle() {
+            return "Avg time (ms)";
+        }
+
+        /*
+         * (non-Javadoc)
+         *
+         * @see
+         * org.keyboardplaying.comparer.core.ImplComparisonLogger.ImplComparisonColumn#getValue(org.keyboardplaying.
+         * comparer.model.ImplCheckResult)
+         */
+        @Override
+        public String getValue(ImplCheckResult result) {
+            return String.valueOf(result.getAverageExecutionTime());
+        }
+    }
+
+    /**
+     * A column to display equality with the reference result.
+     * <p/>
+     * Will display:
+     * <ul>
+     * <li>{@code REF} if this result is the same object as the reference method;</li>
+     * <li>{@code == REF} if this result equals the reference method;</li>
+     * <li>{@code != REF} otherwise.</li>
+     * </ul>
+     * <p/>
+     * <strong>This object should only be used once per table.</strong>
+     *
+     * @author Cyrille Chopelet (http://keyboardplaying.org)
+     */
+    private static class ResultComparisonColumn implements ImplComparisonColumn {
+
+        private static final String NAME_REF = "REF";
+
+        private Object referenceResult;
+        private boolean referenceSet = false;
+
+        /*
+         * (non-Javadoc)
+         *
+         * @see org.keyboardplaying.comparer.core.ImplComparisonLogger.ImplComparisonColumn#getTitle()
+         */
+        @Override
+        public String getTitle() {
+            return "Result";
+        }
+
+        /*
+         * (non-Javadoc)
+         *
+         * @see
+         * org.keyboardplaying.comparer.core.ImplComparisonLogger.ImplComparisonColumn#getValue(org.keyboardplaying.
+         * comparer.model.ImplCheckResult)
+         */
+        @Override
+        public String getValue(ImplCheckResult result) {
+            String content;
+            if (referenceSet) {
+                if (referenceResult == result.getMethodResult()) {
+                    content = "   " + NAME_REF;
+                } else {
+                    content = (Objects.equals(referenceResult, result.getMethodResult()) ? "== " : "!= ") + NAME_REF;
+                }
+            } else {
+                referenceResult = result.getMethodResult();
+                referenceSet = true;
+                content = "   " + NAME_REF;
+            }
+            return content;
+        }
     }
 }
