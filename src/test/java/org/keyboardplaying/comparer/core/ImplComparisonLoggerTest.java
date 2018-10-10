@@ -30,7 +30,7 @@ import org.keyboardplaying.comparer.test.ClassWithVariants;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Level;

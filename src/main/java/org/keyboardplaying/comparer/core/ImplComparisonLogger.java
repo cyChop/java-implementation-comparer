@@ -111,7 +111,7 @@ public final class ImplComparisonLogger {
      *
      * @author Cyrille Chopelet (http://keyboardplaying.org)
      */
-    private static interface ImplComparisonColumn {
+    private interface ImplComparisonColumn {
 
         /**
          * Returns the title of the column.

@@ -37,7 +37,7 @@ public class ImplCheckResultTest {
      *             never thrown
      */
     @Test
-    public void testCheckResult() throws NoSuchMethodException {
+    public void testCheckResult() {
         // quick and dirty way to have a method
         Method method = new Object() {
             // really dirty

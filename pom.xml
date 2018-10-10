@@ -33,20 +33,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Version management -->
-        <slf4j.version>1.7.12</slf4j.version>
-        <logback.version>1.1.3</logback.version>
-        <asciiart.version>1.0.0</asciiart.version>
+        <slf4j.version>1.7.25</slf4j.version>
+        <logback.version>1.2.3</logback.version>
+        <asciiart.version>1.1.0</asciiart.version>
         <!-- Version management - test -->
         <junit.version>4.12</junit.version>
-        <mockito.version>2.0.21-beta</mockito.version>
-
-        <!-- Sonar -->
-        <sonar.java.source>${maven.compiler.source}</sonar.java.source>
-        <sonar.java.target>${maven.compiler.target}</sonar.java.target>
-        <sonar.host.url>http://sonar.keyboardplaying.org</sonar.host.url>
-        <sonar.jdbc.url>jdbc:mysql://sonar.keyboardplaying.org:3306/sonar</sonar.jdbc.url>
-        <sonar.jdbc.username>sonar</sonar.jdbc.username>
-        <sonar.jdbc.password>sonar</sonar.jdbc.password>
+        <mockito.version>2.23.0</mockito.version>
     </properties>
 
     <dependencies>
@@ -121,7 +113,7 @@
     </ciManagement>
     <organization>
         <name>Keyboard Playing</name>
-        <url>http://keyboardplaying.org</url>
+        <url>https://keyboardplaying.org</url>
     </organization>
     <developers>
         <developer>

@@ -22,6 +22,7 @@ package org.keyboardplaying.comparer.test;
 public class ClassWithVariants {
 
     /** A simple method to test comparison on a method without any argument. */
+    @SuppressWarnings("EmptyMethod")
     public void noArgMethod() {
         // this does nothing
     }
@@ -91,11 +92,13 @@ public class ClassWithVariants {
     }
 
     /** Test for a method with void return. */
+    @SuppressWarnings("EmptyMethod")
     public void returnNothing() {
         // empty method
     }
 
     /** Test for a method with void return. */
+    @SuppressWarnings("EmptyMethod")
     public void returnNothing1() {
         // empty method
     }
