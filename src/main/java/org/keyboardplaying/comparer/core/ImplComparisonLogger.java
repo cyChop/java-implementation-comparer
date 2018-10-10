@@ -79,7 +79,7 @@ public final class ImplComparisonLogger {
         private final ImplComparisonColumn[] columns = { new MethodComparisonColumn(), new AvgTimeComparisonColumn(),
                 new ResultComparisonColumn() };
 
-        private List<ImplCheckResult> results;
+        private final List<ImplCheckResult> results;
 
         public ImplComparisonTable(List<ImplCheckResult> results) {
             this.results = results;

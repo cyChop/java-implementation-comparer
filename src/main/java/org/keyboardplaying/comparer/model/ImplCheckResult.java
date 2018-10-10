@@ -23,10 +23,10 @@ import java.lang.reflect.Method;
  */
 public class ImplCheckResult {
 
-    private Method method;
+    private final Method method;
+    private final Object methodResult;
     private long totalExecutionTime = 0L;
     private int totalExecutions = 0;
-    private Object methodResult;
 
     /**
      * Creates a new instance.

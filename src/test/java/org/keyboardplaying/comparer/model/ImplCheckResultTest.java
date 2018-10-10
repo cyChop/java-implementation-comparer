@@ -32,9 +32,6 @@ public class ImplCheckResultTest {
 
     /**
      * Tests the getters and setters of an {@link ImplCheckResult}.
-     *
-     * @throws NoSuchMethodException
-     *             never thrown
      */
     @Test
     public void testCheckResult() {
